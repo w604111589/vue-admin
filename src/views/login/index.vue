@@ -29,8 +29,8 @@
         </el-button>
       </el-form-item>
       <div class="tips">
-        <span style="margin-right:20px;">username: 18062789252</span>
-        <span> password: 123456</span>
+        <span style="margin-right:20px;">username: lwb_test</span>
+        <span> password: good2018</span>
       </div>
     </el-form>
   </div>
@@ -62,8 +62,8 @@ const validatePass = (rule: any, value: string, callback: any) => {
 @Component
 export default class Login extends Vue {
   private loginForm = {
-    username: '18062789252',
-    password: '123456',
+    username: 'lwb_test',
+    password: 'good2018',
   };
   private loginRules = {
     username: [{ required: true, trigger: 'blur', validator: validateUsername }],
