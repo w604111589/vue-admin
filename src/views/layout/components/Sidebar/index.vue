@@ -42,37 +42,12 @@ export default class SideBar extends Vue {
     }
     let newRoutes = [];
     for (let val in routes ){
-      console.log(routes[val]);
       if( routes[val].meta && routes[val].meta.category && routes[val].meta.category==category){
         newRoutes.push(routes[val])
       }
-
     }
-  console.log(newRoutes);
     return newRoutes; 
   }
-
-  // get routes() {
-  //   const routes= (this.$router as any).options.routes;
-  //   let category = util.get('category');
-
-  //   if(!category){
-  //     util.set('category','home')
-  //     category = 'home';
-  //   }
-  //   console.log(routes);
-  //   console.log(category);
-  //   let newRoutes = [];
-  //   for (let val in routes ){
-  //     if( routes[val].meta && routes[val].meta.category && routes[val].meta.category==category){
-  //       newRoutes.push(routes[val])
-  //     }
-
-  //   }
-  //   console.log(newRoutes)
-  //   return newRoutes;
-  //   // return (this.$router as any).options.routes;
-  // }
 
   get isCollapse() {
     return !this.sidebar.opened;

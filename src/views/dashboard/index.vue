@@ -16,7 +16,7 @@ export default class Dashboard extends Vue {
   }
 
   get roles() {
-    return UserModule.roles;
+    return UserModule.role;
   }
 }
 </script>

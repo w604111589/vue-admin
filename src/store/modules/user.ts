@@ -1,6 +1,7 @@
 import { VuexModule, Module, MutationAction, Mutation, Action, getModule } from 'vuex-module-decorators';
 import { login, logout, getInfo } from '@/api/login';
 import { getToken, setToken, removeToken } from '@/utils/auth';
+import Session from '@/utils/session';
 import store from '@/store';
 
 export interface IUserState {
@@ -20,7 +21,7 @@ class User extends VuexModule implements IUserState {
   @Action({ commit: 'SET_TOKEN' })
   public async Login(userInfo: { username: string, password: string}) {
     const username = userInfo.username.trim();
-    const data = await login(username, userInfo.password);
+    const data: any = await login(username, userInfo.password);
     const token = JSON.stringify(data.token);
     setToken(token);
     return token;
@@ -28,8 +29,8 @@ class User extends VuexModule implements IUserState {
 
   @Action({ commit: 'SET_TOKEN' })
   public async FedLogOut() {
-
     removeToken();
+    Session.remove('category');
     return '';
   }
 

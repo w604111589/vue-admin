@@ -7,4 +7,10 @@ export const getLog = (params: any) =>
     params,
   });
 
+export const getMessage = (params: any) =>
+  request({
+    url: '/user/message',
+    method: 'get',
+    params,
+  });
 

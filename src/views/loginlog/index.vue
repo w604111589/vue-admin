@@ -29,7 +29,6 @@
         </template>
       </el-table-column>
     </el-table>
-
   </div>
 </template>
 
@@ -50,14 +49,16 @@
     	this.listLoading = true;
     	getLog(this.listQuery).then((response) => {
       	this.list = response.data;
-      	this.listLoading = false;
-    });
+				this.listLoading = false;
+			});
+		}		
+		
   }
-  }
+  
 </script>
 
 <style scoped lang="scss">
-  .log {
-
-  }
+  // .log {
+		
+  // }
 </style>

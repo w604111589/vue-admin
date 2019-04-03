@@ -14,3 +14,4 @@ import './table';
 import './tree';
 import './user';
 import './test';
+import './email';

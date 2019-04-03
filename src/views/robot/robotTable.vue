@@ -105,7 +105,7 @@ import { Component, Vue } from 'vue-property-decorator';
     },
   },
 })
-export default class ComplexTable extends Vue {
+export default class robotTable extends Vue {
   private list = [];
   private listLoading = true;
   private listQuery = {};
@@ -129,7 +129,6 @@ export default class ComplexTable extends Vue {
   private fetchData() {
     this.listLoading = true;
     getSonUser(this.listQuery).then((response) => {
-      console.log(response.data)
       this.list = response.data[0];
       this.listLoading = false;
     });

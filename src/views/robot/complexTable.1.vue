@@ -112,7 +112,7 @@ import { Component, Vue } from 'vue-property-decorator';
     },
   },
 })
-export default class ComplexTable extends Vue {
+export default class ComplexTable1 extends Vue {
   private list = null;
   private listLoading = true;
   private listQuery = {};

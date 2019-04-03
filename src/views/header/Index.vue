@@ -4,7 +4,7 @@
 			<div class="web-name">
 				<div class="left div-one">
 					<img src="../../assets/img/logo.png" alt="" >
-					<span>量化策略平台</span>
+					<span>{{$t('header.plat_name')}}</span>
 				</div>
 				<div class="left div-two">
 					<ul class="header-ul ">
@@ -14,29 +14,29 @@
 						<li> <router-link to="/exchange" @click="changeCategory('exchange')" >交易所</router-link> </li>
 						<li> <router-link to="/robot"  @click="changeCategory('robot')">机器人</router-link> </li> -->
 						<li> 
-							<span @click="changeCategory('home','/')" >首页</span>
+							<span @click="changeCategory('home','/')" :class="menuType == 'home'? 'header-style':''" >{{$t('route.dashboard')}}</span>
 						</li>
-						<li> <span @click="changeCategory('exchange','/form')" >交易所</span> </li>
-						<li> <span  @click="changeCategory('robot','/robot')">机器人</span> </li>
+						<li> <span @click="changeCategory('exchange','/form')" :class="menuType == 'exchange'? 'header-style':''" >{{$t('header.exchange')}}</span> </li>
+						<li> <span  @click="changeCategory('robot','/robot')" :class="menuType == 'robot'? 'header-style':''">{{$t('header.robot')}}</span> </li>
 					</ul>
 				</div>
 				<div class="right">
 					<ul class="header-ul">
-						<li>量化人</li>
+						<li><img src="../../assets/img/user_img.png" width="26" height="26" class="header-ul-img"> {{name}} </li>
 						<li>
-							<el-dropdown>
+							<el-dropdown trigger="click" @command= "changeLanguage">
   							<span class="el-dropdown-link">
-    							简体中文<i class="el-icon-arrow-down el-icon--right"></i>
+    							{{langName}}<i class="el-icon-arrow-down el-icon--right"></i>
   							</span>
   							<el-dropdown-menu slot="dropdown">
-    							<el-dropdown-item>简体中文</el-dropdown-item>
-									<el-dropdown-item>英文</el-dropdown-item>
+    							<el-dropdown-item :disabled="language==='zh'" command="zh"> 简体中文</el-dropdown-item>
+									<el-dropdown-item :disabled="language==='en'" command="en"> English </el-dropdown-item>
 									
   							</el-dropdown-menu>
 							</el-dropdown>
 						</li>
 								
-						<li @click="logout">退出</li>
+						<li @click="logout">{{$t('header.loginout')}}</li>
 					</ul>
 				</div>
 			</div>
@@ -50,20 +50,39 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import  util from '@/utils/session';
 import { UserModule } from '@/store/modules/user';
+import Session from '@/utils/session';
 @Component
 export default class HeaderIndex extends Vue {
 
 	// private show: boolean = true;
-
+	private menuType = 'home';
+	private language = Session.get('language') || 'zh';
+	private langName = "简体中文";
 	created() {
-		console.log(this.$route.path);	
+		if(this.language){
+			this.getlangName(this.language);
+		}
 	}
-	// computed: {
-	// 	show(): boolean {
-	// 		// let currentRoute = this.$route.path
-	// 		return true;
-	// 	}
-	// }
+
+	private getlangName(val: string){
+		let lang: string;
+		switch (val){
+			case 'zh':
+				lang = "简体中文";
+				break;
+			case 'en':
+				lang = "English"	;
+				break;
+			default:
+				lang = "简体中文";
+		}
+		this.langName = lang;
+	}
+
+	get name() {
+		return UserModule.name;
+	}
+	
 	//计算属性（等同与computed）
 	get show(): boolean{
 		const currentRoute = this.$route.path
@@ -74,12 +93,12 @@ export default class HeaderIndex extends Vue {
 		
 	}
 
-	changeCategory(str: string, path: string): void{
+	private changeCategory(str: string, path: string): void{
 		util.set('category',str)
-		console.log(util.get('category'))
+		this.menuType = str;
 		this.go(path)
 	}
-	go(path: string, params?: any) {
+	private go(path: string, params?: any) {
     if(params) {
       this.$router.push({
         path: path,
@@ -96,7 +115,14 @@ export default class HeaderIndex extends Vue {
       this.go("/login");
       // location.reload();  // 为了重新实例化vue-router对象 避免bug
     });
-  }
+	}
+	
+	private changeLanguage(val: string){
+		this.$i18n.locale = val;
+		this.language = val;
+		this.getlangName(val);
+		Session.set('language',val);
+	}
 }
 </script>
 
@@ -115,7 +141,7 @@ export default class HeaderIndex extends Vue {
 		text-align: left;
 		z-index: 100;
 	}
-	.web-name img{
+	.web-name .div-one img{
 		position: relative;
 		top:12px;
 		width:32px;
@@ -170,6 +196,14 @@ export default class HeaderIndex extends Vue {
 		color:#22A8EE;
 	}
 	.el-dropdown{
+		color:#22A8EE;
+	}
+	.header-ul-img{
+		position: relative;
+		top:8px;
+		margin-right:5px;
+	}
+	.header-style{
 		color:#22A8EE;
 	}
 </style>

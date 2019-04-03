@@ -1,6 +1,6 @@
 <template>
+  <!-- <div v-if="!item.meta || !item.meta.hidden" :class="['menu-wrapper', collapse ? 'simple-mode' : 'full-mode', {'first-level': !isNest}]"> -->
   <div v-if="(!item.meta || !item.meta.hidden) " :class="['menu-wrapper', collapse ? 'simple-mode' : 'full-mode', {'first-level': !isNest}]">
-    <div>{{item.children}}</div>
     <template v-if="hasOneShowingChild(item.children, item) && (!onlyOneChild.children || onlyOneChild.meta.noShowingChildren)">
       <app-link :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown': !isNest}">
@@ -37,7 +37,10 @@ import { Route } from 'vue-router';
 import { isExternal } from '@/utils/validate';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import AppLink from './Link.vue';
+// import { generateTitle } from '@/utils/i18n'
 @Component({
+  // Set 'name' here to prevent uglifyjs from causing recursive component not work
+  // See https://medium.com/haiiro-io/element-component-name-with-vue-class-component-f3b435656561 for detail
   name: 'SidebarItem',
   components: {
     AppLink,
@@ -74,6 +77,7 @@ export default class SidebarItem extends Vue {
     this.onlyOneChild = null;
     return false;
   }
+
   private resolvePath(routePath: string) {
     if (isExternal(routePath)) {
       return routePath;
