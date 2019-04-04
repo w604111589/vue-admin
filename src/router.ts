@@ -27,11 +27,13 @@ export default new Router({
   routes: [
     {
       path: '/login',
+      name: 'login',
       component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
       meta: { hidden: true},
     },
     {
       path: '/404',
+      name: '404',
       component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue') ,
       meta: { hidden: true },
     },
@@ -43,6 +45,7 @@ export default new Router({
       meta: { hidden: true },
       children: [{
         path: 'dashboard',
+        name: 'dashboard',
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'),
       }],
     },
@@ -75,7 +78,7 @@ export default new Router({
       component: Layout,
       redirect: '/example/table',
       name: 'Example',
-      meta: { title: 'Example2', icon: 'example' , category: 'home'  },
+      meta: { title: 'Example3', icon: 'example' , category: 'home'  },
       children: [
         {
           path: 'table',

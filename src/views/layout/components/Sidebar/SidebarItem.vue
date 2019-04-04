@@ -1,6 +1,5 @@
 <template>
   <div v-if="(!item.meta || !item.meta.hidden) " :class="['menu-wrapper', collapse ? 'simple-mode' : 'full-mode', {'first-level': !isNest}]">
-    <div>{{item.children}}</div>
     <template v-if="hasOneShowingChild(item.children, item) && (!onlyOneChild.children || onlyOneChild.meta.noShowingChildren)">
       <app-link :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown': !isNest}">
@@ -19,15 +18,34 @@
         <svg-icon v-if="item.meta && item.meta.icon" :name="item.meta.icon" />
         <span v-if="item.meta && item.meta.title" slot="title">{{item.meta.title}}</span>
       </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :is-nest="true"
-        :item="child"
-        :key="child.path"
-        :base-path="resolvePath(child.path)"
-        :collapse="collapse"
-        class="nest-menu"/>
+      <template>
+        <div v-for="child in item.children" :key="child.path" >
+          <div v-if="!child.hidden">
+            <sidebar-item 
+              v-if=" child.children&&child.children.length>0"
+              :is-nest="true"
+              :item="child"
+              :key="child.path"
+              :base-path="resolvePath(child.path)"
+              :collapse="collapse"
+              class="nest-menu"/>
+            <app-link v-else :to="resolvePath(child.path)" :key="child.name">
+              <el-menu-item :index="resolvePath(child.path)">
+                 <template slot="title">
+                  <svg-icon v-if="child.meta && child.meta.icon" :name="child.meta.icon" />
+                  <span v-if="child.meta && child.meta.title" slot="title">{{generateTitle(child.meta.title)}}</span>
+                </template>
+              </el-menu-item>
+            </app-link>
+          </div>
+
+        </div>
+  
+      </template>
+
+ 
     </el-submenu>
+
   </div>
 </template>
 
