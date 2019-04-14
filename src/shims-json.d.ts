@@ -16,3 +16,13 @@ declare module 'element-ui/lib/locale/lang/zh-CN'{
   const value: any;
   export default value;
 }
+
+declare module 'showdown'{
+  const value: any;
+  export default value;
+}
+
+declare module 'simplemde'{
+  const value: any;
+  export default value;
+}

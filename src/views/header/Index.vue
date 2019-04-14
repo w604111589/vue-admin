@@ -48,81 +48,81 @@
 <script lang="ts">
 
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import  util from '@/utils/session';
+import util from '@/utils/session';
 import { UserModule } from '@/store/modules/user';
 import Session from '@/utils/session';
 @Component
 export default class HeaderIndex extends Vue {
 
-	// private show: boolean = true;
-	private menuType = 'home';
-	private language = Session.get('language') || 'zh';
-	private langName = "简体中文";
-	created() {
-		if(this.language){
-			this.getlangName(this.language);
-		}
-	}
+  // private show: boolean = true;
+  private menuType = 'home';
+  private language = Session.get('language') || 'zh';
+  private langName = "简体中文";
+  public created() {
+    if ( this.language) {
+      this.getlangName(this.language);
+    }
+  }
 
-	private getlangName(val: string){
-		let lang: string;
-		switch (val){
-			case 'zh':
-				lang = "简体中文";
-				break;
-			case 'en':
-				lang = "English"	;
-				break;
-			default:
-				lang = "简体中文";
-		}
-		this.langName = lang;
-	}
+  private getlangName(val: string) {
+    let lang: string;
+    switch (val) {
+      case 'zh':
+        lang = '简体中文';
+        break;
+      case 'en':
+        lang = 'English'	;
+        break;
+      default:
+        lang = '简体中文';
+    }
+    this.langName = lang;
+  }
 
-	get name() {
-		return UserModule.name;
-	}
-	
-	//计算属性（等同与computed）
-	get show(): boolean{
-		const currentRoute = this.$route.path
-		if(currentRoute == "/login" || currentRoute == "/register" ){
-			return false;
-		}
-		return true;
-		
-	}
+  get name() {
+    return UserModule.name;
+  }
 
-	private changeCategory(str: string, path: string): void{
-		util.set('category',str)
-		this.menuType = str;
-		this.go(path)
-	}
-	private go(path: string, params?: any) {
-    if(params) {
+  // 计算属性（等同与computed）
+  get show(): boolean {
+    const currentRoute = this.$route.path;
+    if (currentRoute === '/login' || currentRoute === '/register' ) {
+      return false;
+    }
+    return true;
+
+  }
+
+  private changeCategory(str: string, path: string): void {
+    util.set('category', str);
+    this.menuType = str;
+    this.go(path);
+  }
+  private go(path: string, params?: any) {
+    if (params) {
       this.$router.push({
-        path: path,
+        path,
         query: {
-          activeName: params
-        }
+          activeName: params,
+        },
       });
     } else {
-      this.$router.push({ path: path });
+      this.$router.push({ path });
     }
-	}
-	private logout() {
+  }
+  private logout() {
     UserModule.FedLogOut().then(() => {
-      this.go("/login");
+      this.go('/login');
       // location.reload();  // 为了重新实例化vue-router对象 避免bug
     });
-	}
-	
-	private changeLanguage(val: string){
-		this.$i18n.locale = val;
-		this.language = val;
-		this.getlangName(val);
-		Session.set('language',val);
-	}
+  }
+
+  private changeLanguage(val: string) {
+    this.$i18n.locale = val;
+    this.language = val;
+    this.getlangName(val);
+    Session.set('language', val);
+  }
 }
 </script>
 

@@ -47,30 +47,30 @@
   import { Component, Prop, Vue } from 'vue-property-decorator';
   @Component
   export default class messageIndex extends Vue {
-  	private list = [];
-  	private listLoading = true;
-		private listQuery = {};
-		private pages = {pageSize: 10,pageNum: 1,total: 0};
-	  
-		private created() {
-    	this.fetchData();
-  	}
+    private list = [];
+    private listLoading = true;
+    private listQuery = {};
+    private pages = {pageSize: 10,pageNum: 1,total: 0};
 
- 		private fetchData() {
-    	this.listLoading = true;
-    	getMessage(this.listQuery).then((response) => {
-				this.list = response.data;
-				this.listLoading = false;
-			});
-		}	
+    private created() {
+      this.fetchData();
+    }
+
+     private fetchData() {
+      this.listLoading = true;
+      getMessage(this.listQuery).then((response) => {
+        this.list = response.data;
+        this.listLoading = false;
+      });
+    }
     // 当分页变动时调用的函数
-    private handleSizeChange(val: any){
-          this.fetchData()
-		}
-		
-   	private handleCurrentChange(val: any){
-          this.fetchData()
-    }	
+    private handleSizeChange(val: any) {
+          this.fetchData();
+    }
+
+     private handleCurrentChange(val: any) {
+          this.fetchData();
+    }
   }
 </script>
 
