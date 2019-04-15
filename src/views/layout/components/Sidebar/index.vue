@@ -18,7 +18,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { AppModule } from '@/store/modules/app';
 import SidebarItem from './SidebarItem.vue';
-import  util from '@/utils/session';
+import util from '@/utils/session';
 @Component({
   components: {
     SidebarItem,
@@ -33,20 +33,20 @@ export default class SideBar extends Vue {
 
   @Watch('$route')
   private getRoutes() {
-    const routes= (this.$router as any).options.routes;
+    const routes = (this.$router as any).options.routes;
     let category = util.get('category');
 
-    if(!category){
-      util.set('category','home')
+    if (!category) {
+      util.set('category', 'home');
       category = 'home';
     }
     let newRoutes = [];
-    for (let val in routes ){
-      if( routes[val].meta && routes[val].meta.category && routes[val].meta.category==category){
-        newRoutes.push(routes[val])
+    for (let val in routes ) {
+      if ( routes[val].meta && routes[val].meta.category && routes[val].meta.category === category) {
+        newRoutes.push(routes[val]);
       }
     }
-    return newRoutes; 
+    return newRoutes;
   }
 
   get isCollapse() {

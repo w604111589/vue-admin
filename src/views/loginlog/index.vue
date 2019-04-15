@@ -6,21 +6,16 @@
       element-loading-text="Loading"
       border
       fit
-      highlight-current-row>
+      highlight-current-row
+    >
       <el-table-column align="center" label="login_ip">
-        <template slot-scope="scope">
-          {{ scope.row.login_ip }}
-        </template>
+        <template slot-scope="scope">{{ scope.row.login_ip }}</template>
       </el-table-column>
-			<el-table-column align="center" label="login_address">
-        <template slot-scope="scope">
-          {{ scope.row.login_ip }}
-        </template>
+      <el-table-column align="center" label="login_address">
+        <template slot-scope="scope">{{ scope.row.login_ip }}</template>
       </el-table-column>
       <el-table-column label="login_user_type">
-        <template slot-scope="scope">
-          {{ scope.row.login_user_type }}
-        </template>
+        <template slot-scope="scope">{{ scope.row.login_user_type }}</template>
       </el-table-column>
       <el-table-column align="center" prop="login_datetime" label="create_time" width="200">
         <template slot-scope="scope">
@@ -33,32 +28,30 @@
 </template>
 
 <script lang="ts">
-  import { getLog } from '@/api/log';
-  import { Component, Prop, Vue } from 'vue-property-decorator';
-  @Component
-  export default class logIndex extends Vue {
-  	private list = [];
-  	private listLoading = true;
-		private listQuery = {};
-	  
-		private created() {
-    	this.fetchData();
-  	}
+import { getLog } from '@/api/log';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+@Component
+export default class logIndex extends Vue {
+  private list = [];
+  private listLoading = true;
+  private listQuery = {};
 
- 		private fetchData() {
-    	this.listLoading = true;
-    	getLog(this.listQuery).then((response) => {
-      	this.list = response.data;
-				this.listLoading = false;
-			});
-		}		
-		
+  private created() {
+    this.fetchData();
   }
-  
+
+  private fetchData() {
+    this.listLoading = true;
+    getLog(this.listQuery).then( (response: any) => {
+      this.list = response.data;
+      this.listLoading = false;
+    });
+  }
+}
 </script>
 
 <style scoped lang="scss">
-  // .log {
-		
-  // }
+// .log {
+
+// }
 </style>

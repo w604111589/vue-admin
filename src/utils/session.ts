@@ -22,4 +22,4 @@ const util: Util = {
   },
 };
 
-export default util;
+export default util ;

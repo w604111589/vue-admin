@@ -99,16 +99,16 @@ export default class SidebarItem extends Vue {
     return path.resolve(this.basePath, routePath);
   }
 
-  private generateTitle(title: string){
-    const hasKey = this.$te('route.' + title)
+  private generateTitle(title: string) {
+    const hasKey = this.$te('route.' + title);
 
     if (hasKey) {
     // $t :this method from vue-i18n, inject in @/lang/index.js
-      const translatedTitle = this.$t('route.' + title)
-      return translatedTitle
+      const translatedTitle = this.$t('route.' + title);
+      return translatedTitle;
     }
-    return title
-  } 
+    return title;
+  }
 }
 </script>
 

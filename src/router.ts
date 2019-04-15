@@ -90,7 +90,7 @@ export default new Router({
           path: 'tree',
           name: 'Tree',
           component: () => import(/* webpackChunkName: "tree" */ '@/views/tree/index.vue'),
-          meta: { title: 'Tree', icon: 'tree', isChildren: 'yes' }, 
+          meta: { title: 'Tree', icon: 'tree', isChildren: 'yes' },
         },
       ],
     },

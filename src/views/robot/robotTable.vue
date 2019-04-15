@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts">
-import { getSonUser,createUser } from '@/api/table';
+import { getSonUser, createUser } from '@/api/table';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
@@ -97,10 +97,9 @@ import { Component, Vue } from 'vue-property-decorator';
     stateFilter(state: string) {
       const statusMap: any = [
         '正常',
-        '锁定'
+        '锁定',
       ];
 
-      
       return statusMap[state];
     },
   },
@@ -111,16 +110,16 @@ export default class robotTable extends Vue {
   private listQuery = {};
   private dialogFormVisible = false;
   private dialogStatus = '';
-  private textMap = {update: 'Edit',create: 'Create'};
-  private rules= {};
-  private temp = {        
+  private textMap = {update: 'Edit', create: 'Create'};
+  private rules = {};
+  private temp = {
         son_user_name: '',
         password: '',
         };
-  private statusOptions= ['published', 'draft', 'deleted'];
+  private statusOptions = ['published', 'draft', 'deleted'];
   private dialogPvVisible = false;
   private pvData = [];
-  
+
 
   private created() {
     this.fetchData();
@@ -138,31 +137,31 @@ export default class robotTable extends Vue {
       this.temp = {
         son_user_name: '',
         password: '',
-      }
+      };
   }
-  
+
   private createData() {
-    createUser(this.temp).then(()=>{
+    createUser(this.temp).then(() => {
       this.dialogFormVisible = false;
       this.fetchData();
       this.$notify({
               title: '成功',
               message: '创建成功',
               type: 'success',
-              duration: 2000
-            })
-    })
+              duration: 2000,
+            });
+    });
   }
 
   private  handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
+      this.resetTemp();
+      this.dialogStatus = 'create';
+      this.dialogFormVisible = true;
 
       this.$nextTick(() => {
         // console.log(this.$refs['dataForm']);
-        this.$refs['dataForm'].clearValidate()
-      })
+        // this.$refs['dataForm'].clearValidate()
+      });
   }
 }
 </script>

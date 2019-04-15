@@ -11,7 +11,7 @@ const service = axios.create({
 });
 axios.defaults.headers = {
   'Content-Type': 'application/x-www-form-urlencoded',
-}
+};
 // Request interceptors
 service.interceptors.request.use(
   (config) => {

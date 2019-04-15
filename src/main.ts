@@ -37,7 +37,6 @@ Vue.use(SvgIcon, {
 
 Vue.config.productionTip = false;
 
-//3123
 // import util from '@/utils/session';
 // util.set('category', 'home');
 Vue.use(VueI18n);
@@ -61,6 +60,5 @@ new Vue({
   i18n,
   router,
   store,
-
   render: (h) => h(App),
 }).$mount('#app');

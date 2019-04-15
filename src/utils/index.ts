@@ -11,7 +11,8 @@ export function parseTime(time: any, cFormat: string) {
   if (typeof time === 'object') {
     date = time;
   } else {
-    if (('' + time).length === 10) {time = parseInt(time) * 1000 ;};
+    // tslint:disable-next-line:radix
+    if (('' + time).length === 10) {time = parseInt(time) * 1000 ; }
     date = new Date(time);
   }
   const formatObj: any = {
@@ -21,23 +22,23 @@ export function parseTime(time: any, cFormat: string) {
     h: date.getHours(),
     i: date.getMinutes(),
     s: date.getSeconds(),
-    a: date.getDay()
-  }
-  const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
-    let value = formatObj[key]
+    a: date.getDay(),
+  };
+  const timeStr = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+    let value = formatObj[key];
     // Note: getDay() returns 0 on Sunday
     if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ]; }
     if (result.length > 0 && value < 10) {
       value = '0' + value;
     }
     return value || 0;
-  })
-  return time_str;
+  });
+  return timeStr;
 }
 
 export function formatTime(time: any, option: string) {
   time = +time * 1000;
-  const d :any = new Date(time);
+  const d: any = new Date(time);
   const now = Date.now();
 
   const diff = (now - d) / 1000;
@@ -65,7 +66,7 @@ export function formatTime(time: any, option: string) {
       '时' +
       d.getMinutes() +
       '分'
-    )
+    );
   }
 }
 
@@ -75,6 +76,7 @@ export function formatTime(time: any, option: string) {
  */
 export function cleanArray<T>(actual: T[]) {
   const newArray = [];
+  // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < actual.length; i++) {
     if (actual[i]) {
       newArray.push(actual[i]);
