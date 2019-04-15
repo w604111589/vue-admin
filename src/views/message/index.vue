@@ -37,6 +37,7 @@
 </template>
 
 <script lang="ts">
+<<<<<<< HEAD
 import { getMessage } from '@/api/log';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
@@ -64,6 +65,36 @@ export default class messageIndex extends Vue {
 
   private handleCurrentChange(val: any) {
     this.fetchData();
+=======
+  import { getMessage } from '@/api/log';
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+  @Component
+  export default class messageIndex extends Vue {
+    private list = [];
+    private listLoading = true;
+    private listQuery = {};
+    private pages = {pageSize: 10,pageNum: 1,total: 0};
+
+    private created() {
+      this.fetchData();
+    }
+
+     private fetchData() {
+      this.listLoading = true;
+      getMessage(this.listQuery).then((response) => {
+        this.list = response.data;
+        this.listLoading = false;
+      });
+    }
+    // 当分页变动时调用的函数
+    private handleSizeChange(val: any) {
+          this.fetchData();
+    }
+
+     private handleCurrentChange(val: any) {
+          this.fetchData();
+    }
+>>>>>>> 0da5d03cdd9abf7f9bc82be4e805863a8b375398
   }
 }
 </script>

@@ -195,6 +195,54 @@ export default new Router({
       ],
     },
     {
+      path: 'external-link',
+      component: Layout,
+      children: [
+        {
+          path: 'https://github.com/Armour/vue-typescript-admin-template',
+          meta: { title: 'External Link', icon: 'link' },
+        },
+      ],
+    },
+    {
+      path: '/components',
+      component: Layout,
+      redirect: 'noredirect',
+      name: 'ComponentDemo',
+      meta: {
+        title: 'components',
+        icon: 'example',
+        category: 'home',
+      },
+      children: [
+        {
+          path: 'markdown',
+          component: () => import('@/views/components/markdown.vue'),
+          name: 'MarkdownDemo',
+          meta: { title: 'markdown', icon: 'form' },
+        },
+        {
+          path: 'create',
+          component: () => import('@/views/example/create.vue'),
+          name: 'ArticleCreate',
+          meta: { title: 'create', icon: 'form' },
+        },
+        {
+          path: 'list',
+          component: () => import('@/views/example/list.vue'),
+          name: 'ArticleList',
+          meta: { title: 'list', icon: 'form' },
+        },
+        {
+          path: 'avatar-upload',
+          component: () => import('@/views/components/avatarUpload.vue'),
+          name: 'AvatarUploadDemo',
+          meta: { title: 'avatarUpload', icon: 'form' },
+        },
+
+      ]
+    },
+    {
       path: '*',
       redirect: '/404',
       meta: { hidden: true },
