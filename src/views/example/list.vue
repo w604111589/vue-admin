@@ -16,7 +16,8 @@
 
       <el-table-column width="180px" align="center" label="Date">
         <template slot-scope="scope">
-          <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <!-- <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span> -->
+          <span>{{ scope.row.release_time }}</span>
         </template>
       </el-table-column>
 
@@ -28,11 +29,16 @@
 
       <el-table-column width="100px" label="Importance">
         <template slot-scope="scope">
-          <svg-icon
+          <!-- <svg-icon
             v-for="n in +scope.row.importance"
             :key="n"
             icon-class="star"
             class="meta-item__icon"
+          /> -->
+                    <svg-icon
+            v-for="n in +scope.row.importance"
+            :key="n"
+            name="star"
           />
         </template>
       </el-table-column>
@@ -45,7 +51,7 @@
 
       <el-table-column min-width="300px" label="Title">
         <template slot-scope="scope">
-          <router-link :to="'/example/edit/'+scope.row.id" class="link-type">
+          <router-link :to="'/components/edit/'+scope.row.id" class="link-type">
             <span>{{ scope.row.title }}</span>
           </router-link>
         </template>
@@ -53,7 +59,10 @@
 
       <el-table-column align="center" label="Actions" width="120">
         <template slot-scope="scope">
-          <router-link :to="'/example/edit/'+scope.row.id">
+          <router-link v-if="scope.row.type==1" :to="'/components/medit/'+scope.row.id">
+            <el-button type="primary" size="small" icon="el-icon-edit">EditM</el-button>
+          </router-link>
+          <router-link v-else :to="'/components/edit/'+scope.row.id" >
             <el-button type="primary" size="small" icon="el-icon-edit">Edit</el-button>
           </router-link>
         </template>
@@ -71,27 +80,27 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import Pagination from "@/components/Pagination/index.vue";
-import { fetchList } from "@/api/article";
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import Pagination from '@/components/Pagination/index.vue';
+import { fetchList } from '@/api/article';
 
 @Component({
   components: {
-    Pagination
+    Pagination,
   },
   filters: {
     statusFilter(status: number) {
       const statusMap: any = {
-        published: "success",
-        draft: "info",
-        deleted: "danger"
+        published: 'success',
+        draft: 'info',
+        deleted: 'danger',
       };
       return statusMap[status];
     }
   }
 })
 export default class ArticleList extends Vue {
-  private list: Array<any> = [];
+  private list: any[] = [];
   private total: number = 0;
   private listLoading: boolean = true;
   private listQuery: any = { page: 1, limit: 20 };

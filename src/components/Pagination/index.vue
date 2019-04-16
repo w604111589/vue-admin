@@ -19,23 +19,23 @@ import { scrollTo } from '@/utils/scrollTo';
 
 @Component
 export default class Pagination extends Vue {
-  @Prop({required:true}) private total!: number;
-  @Prop({required:true}) private page!: number;
-  @Prop({required:true}) private limit!: number;
-  @Prop({default:()=>[10, 20, 30, 50]}) private pageSizes!: number[];
-  @Prop({default:'total, sizes, prev, pager, next, jumper'}) private layout!: string;
-  @Prop({default:true}) private background!: boolean;
-  @Prop({default:true}) private autoScroll!: boolean;
-  @Prop({default:true}) private hidden!: boolean;
+  @Prop({required: true}) private total!: number;
+  @Prop({required: true}) private page!: number;
+  @Prop({required: true}) private limit!: number;
+  @Prop({default: () => [10, 20, 30, 50]}) private pageSizes!: number[];
+  @Prop({default: 'total, sizes, prev, pager, next, jumper'}) private layout!: string;
+  @Prop({default: true}) private background!: boolean;
+  @Prop({default: true}) private autoScroll!: boolean;
+  @Prop({default: true}) private hidden!: boolean;
 
-  private get currentPage(){
+  private get currentPage() {
     return this.page;
   }
-  private set currentPage(val){
-    this.page=val;
+  private set currentPage(val) {
+    this.page = val;
   }
 
-  private get pageSize(){
+  private get pageSize() {
     return this.limit;
   }
 
@@ -45,14 +45,14 @@ export default class Pagination extends Vue {
 
 
   private handleSizeChange(val: number) {
-    this.$emit('pagination', { page: this.currentPage, limit: val })
+    this.$emit('pagination', { page: this.currentPage, limit: val });
     if (this.autoScroll) {
       scrollTo(0, 800);
     }
   }
 
   private handleCurrentChange(val: number) {
-    this.$emit('pagination', { page: val, limit: this.pageSize })
+    this.$emit('pagination', { page: val, limit: this.pageSize });
     if (this.autoScroll) {
       scrollTo(0, 800);
     }

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{fullscreen:fullscreen}" class="tinymce-container editor-container">
+  <div :class="{ fullscreen : fullscreen}" class="tinymce-container editor-container">
     <textarea :id="tinymceId" class="tinymce-textarea"/>
     <div class="editor-custom-btn-container">
       <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK"/>
@@ -12,7 +12,6 @@ import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 import editorImage from "./components/editorImage.vue";
 import plugins from "./plugins";
 import toolbar from "./toolbar";
-// import tinymce from "./tinymce.min.js";
 
 @Component({
   components: {
@@ -109,22 +108,21 @@ export default class Tinymce extends Vue {
       default_link_target: "_blank",
       link_title: false,
       nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
-      // init_instance_callback: (editor: any) => {
-      //   console.log(editor);
-      //   if (_this.value) {
-      //     editor.setContent(_this.value);
-      //   }
-      //   _this.hasInit = true;
-      //   editor.on("NodeChange Change KeyUp SetContent", () => {
-      //     this.hasChange = true;
-      //     this.$emit("input", editor.getContent());
-      //   });
-      // },
-      // setup(editor: any) {
-      //   editor.on("FullscreenStateChanged", (e: any) => {
-      //     _this.fullscreen = e.state;
-      //   });
-      // }
+      init_instance_callback: (editor: any) => {
+        if (_this.value) {
+          editor.setContent(_this.value);
+        }
+        _this.hasInit = true;
+        editor.on("NodeChange Change KeyUp SetContent", () => {
+          this.hasChange = true;
+          this.$emit("input", editor.getContent());
+        });
+      },
+      setup(editor: any) {
+        editor.on("FullscreenStateChanged", (e: any) => {
+          _this.fullscreen = e.state;
+        });
+      }
     });
   }
 

@@ -20,7 +20,7 @@
       </template>
       <template>
         <div v-for="child in item.children" :key="child.path" >
-          <div v-if="!child.hidden">
+          <div v-if="!child.meta.hidden">
             <sidebar-item 
               v-if=" child.children&&child.children.length>0"
               :is-nest="true"

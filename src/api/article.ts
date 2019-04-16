@@ -1,41 +1,51 @@
-import request from '@/utils/request'
+import request from '@/utils/request';
 
-export function fetchList(query :any) {
+const customUrl = 'http://localhost:9091';
+
+export function fetchList(query: any) {
   return request({
-    url: '/article/list',
+    url: customUrl + '/article/list',
     method: 'get',
-    params: query
-  })
+    params: query,
+  });
 }
 
-export function fetchArticle(id :any) {
+export function fetchArticle(id: any) {
   return request({
-    url: '/article/detail',
+    url: customUrl + '/article/detail',
     method: 'get',
-    params: { id }
-  })
+    params: { id },
+  });
 }
 
-export function fetchPv(pv :any) {
+export function fetchPv(pv: any) {
   return request({
     url: '/article/pv',
     method: 'get',
-    params: { pv }
-  })
+    params: { pv },
+  });
 }
 
-export function createArticle(data :any) {
+export function createArticle(data: any) {
   return request({
-    url: '/article/create',
+    url: customUrl + '/article/create',
     method: 'post',
-    data
-  })
+    data,
+  });
 }
 
-export function updateArticle(data :any) {
+export function updateArticle(data: any) {
   return request({
-    url: '/article/update',
+    url: customUrl + '/article/update',
     method: 'post',
-    data
-  })
+    data,
+  });
+}
+
+export function updateMarkdown(data: any){
+  return request({
+    url: customUrl + '/article/update',
+    method: 'post',
+    data,
+  });
 }

@@ -16,11 +16,16 @@
 
       <div class="createPost-main-container">
         <el-row>
-          <Warning/>
-
           <el-col :span="24">
             <el-form-item style="margin-bottom: 40px;" prop="title">
-              <MDinput v-model="postForm.title" :maxlength="100" name="name" :readonly="readAccess" :disabled="readAccess" required>标题1</MDinput>
+              <MDinput
+                v-model="postForm.title"
+                :maxlength="100"
+                name="name"
+                :readonly="readAccess"
+                :disabled="readAccess"
+                required
+              >标题</MDinput>
             </el-form-item>
 
             <div class="postInfo-container">
@@ -84,56 +89,59 @@
         </el-form-item>
 
         <div class="editor-container">
-          <Tinymce ref="editor" :height="400" v-model="postForm.content"/>
+          <markdown-editor
+            id="contentEditor"
+            ref="contentEditor"
+            v-model="postForm.content"
+            :height="300"
+            :z-index="20"
+          />
         </div>
 
-        <!-- <div style="margin-bottom: 20px;">
-          <Upload v-model="postForm.image_uri"/>
-        </div> -->
+        <div v-html="html"/>
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import Tinymce from '@/components/Tinymce/index.vue';
-import Upload from '@/components/Upload/singleImage3.vue';
-import MDinput from '@/components/MDinput/index.vue';
-import Sticky from '@/components/Sticky/index.vue'; // 粘性header组件
-import { validateURL } from '@/utils/validate';
-import { fetchArticle, updateArticle, createArticle } from '@/api/article';
-import { userSearch } from '@/api/remoteSearch';
-import Warning from './Warning.vue';
-import { Message } from 'element-ui';
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
+import MarkdownEditor from "@/components/MarkdownEditor/index.vue";
+import Upload from "@/components/Upload/singleImage3.vue";
+import MDinput from "@/components/MDinput/index.vue";
+import Sticky from "@/components/Sticky/index.vue"; // 粘性header组件
+import { validateURL } from "@/utils/validate";
+import { fetchArticle, updateArticle, createArticle } from "@/api/article";
+import { userSearch } from "@/api/remoteSearch";
+import { Message } from "element-ui";
 import {
   CommentDropdown,
   PlatformDropdown,
-  SourceUrlDropdown,
-} from './Dropdown';
+  SourceUrlDropdown
+} from "./components/Dropdown";
 
 const defaultForm = {
   status: 0,
-  title: '', // 文章题目
-  content: '', // 文章内容
-  abstract: '', // 文章摘要
-  source_uri: '', // 文章外链
-  image_uri: '', // 文章图片
+  title: "", // 文章题目
+  content: "", // 文章内容
+  abstract: "", // 文章摘要
+  source_uri: "", // 文章外链
+  image_uri: "", // 文章图片
   release_time: undefined, // 前台展示时间
   id: undefined,
-  platforms: ['a-platform'],
+  platforms: ["a-platform"],
   comment_disabled: false,
   importance: 0,
-  type: 2,
+  type: 1,
 };
 
 const validateRequire = (rule: any, value: any, callback: any) => {
-  if (value === '') {
+  if (value === "") {
     Message({
-      message: rule.field + '为必传项',
-      type: 'error',
+      message: rule.field + "为必传项",
+      type: "error"
     });
-    callback(new Error(rule.field + '为必传项'));
+    callback(new Error(rule.field + "为必传项"));
   } else {
     callback();
   }
@@ -156,19 +164,18 @@ const validateSourceUri = (rule: any, value: any, callback: any) => {
 
 @Component({
   components: {
-    Tinymce,
     MDinput,
     Upload,
     Sticky,
-    Warning,
     CommentDropdown,
     PlatformDropdown,
     SourceUrlDropdown,
-  },
+    MarkdownEditor,
+  }
 })
-export default class ArticleDetail extends Vue {
-  @Prop({ default: false })
-  private isEdit!: boolean;
+export default class Markdown extends Vue {
+  // @Prop({ default: false })
+  // private isEdit!: boolean;
 
   private postForm: any = Object.assign({}, defaultForm);
   private loading: boolean = false;
@@ -180,17 +187,22 @@ export default class ArticleDetail extends Vue {
     source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
   };
   private tempRoute: any = {};
-
-  private get readAccess() {
-    return this.isEdit ? true : false;
-  }
-
+  private html: string = '';
 
   private get contentShortLength() {
     return this.postForm.abstract.length;
   }
   private set contentShortLength(val) {
     this.postForm.abstract.length = val;
+  }
+
+  private get isEdit() {
+    const id = this.$route.params && this.$route.params.id;
+    return id ? true : false;
+  }
+
+  private get readAccess() {
+    return this.isEdit ? true : false;
   }
 
   private get lang() {
@@ -215,20 +227,10 @@ export default class ArticleDetail extends Vue {
         // this.postForm.title += `   Article Id:${this.postForm.id}`;
         // this.postForm.abstract += `   Article Id:${this.postForm.id}`;
 
-        // Set tagsview title
-        // this.setTagsViewTitle();
       })
       .catch((err: any) => {
         console.log(err);
       });
-  }
-
-  private setTagsViewTitle() {
-    const title = this.lang === 'zh' ? '编辑文章' : 'Edit Article';
-    const route = Object.assign({}, this.tempRoute, {
-      title: `${title}-${this.postForm.id}`
-    });
-    this.$store.dispatch('updateVisitedView', route);
   }
 
   private submitForm() {
@@ -320,6 +322,14 @@ export default class ArticleDetail extends Vue {
         return false;
       }
       this.userListOptions = response.data.items.map((v: any) => v.username);
+    });
+  }
+
+  @Watch('content')
+  private realTimeShowContent() {
+    import('showdown').then((showdown: any) => {
+      const converter = new showdown.Converter();
+      this.html = converter.makeHtml(this.postForm.content);
     });
   }
 }

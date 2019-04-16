@@ -16,7 +16,6 @@ axios.defaults.headers = {
 service.interceptors.request.use(
   (config) => {
     const token = getToken();
-    // console.log(config);
     if (config.method === 'post') {
       if (token) {
         config.data.token = token;

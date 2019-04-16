@@ -110,29 +110,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Prop } from "vue-property-decorator";
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 
 @Component
 export default class MdIput extends Vue {
-  @Prop({ default: "" })
+  @Prop({ default: '' })
   private icon!: string;
 
-  @Prop({ default: "" })
+  @Prop({ default: '' })
   private name!: string;
 
-  @Prop({ default: "text" })
+  @Prop({ default: 'text' })
   private type!: string;
 
   @Prop({ default: [] })
   private value!: [string, number];
 
-  @Prop({ default: "" })
+  @Prop({ default: '' })
   private placeholder!: string;
 
-  @Prop({ default:true })
+  @Prop({ default: true })
   private readonly!: boolean;
 
-  @Prop({ default:true })
+  @Prop({ default: true })
   private disabled!: boolean;
 
   @Prop({ default: '50' })
@@ -145,15 +145,15 @@ export default class MdIput extends Vue {
   private step!: string;
 
   @Prop({ required: false })
-  private minlength!: Number;
+  private minlength!: number;
 
   @Prop({ required: true })
-  private maxlength!: Number;
+  private maxlength!: number;
 
   @Prop({ default: true })
   private required!: boolean;
 
-  @Prop({ default: "off" })
+  @Prop({ default: 'off' })
   private autoComplete!: string;
 
   @Prop({ default: true })
@@ -163,47 +163,51 @@ export default class MdIput extends Vue {
   private focus: boolean = false;
   private fillPlaceHolder: any = null;
 
-  @Watch("value")
+  @Watch('value')
   private getValue(newValue: any) {
     this.currentValue = newValue;
   }
 
   private get computedClasses() {
     return {
-      "material--active": this.focus,
-      "material--disabled": this.disabled,
-      "material--raised": Boolean(this.focus || this.currentValue) // has value
+      'material--active': this.focus,
+      'material--disabled': this.disabled,
+      'material--raised': Boolean(this.focus || this.currentValue) // has value
     };
   }
 
   private handleModelInput(event: any) {
     const value = event.target.value;
-    this.$emit("input", value);
-    if ((this.$parent.$options as any).componentName === "ElFormItem") {
+    this.$emit('input', value);
+    if ((this.$parent.$options as any).componentName === 'ElFormItem') {
       if (this.validateEvent) {
-        this.$parent.$emit("el.form.change", [value]);
+        this.$parent.$emit('el.form.change', [value]);
       }
     }
-    this.$emit("change", value);
+    this.$emit('change', value);
   }
 
   private handleMdFocus(event: any) {
     this.focus = true;
-    this.$emit("focus", event);
-    if (this.placeholder && this.placeholder !== "") {
+    this.$emit('focus', event);
+    if (this.placeholder && this.placeholder !== '') {
       this.fillPlaceHolder = this.placeholder;
     }
   }
 
   private handleMdBlur(event: any) {
     this.focus = false;
-    this.$emit("blur", event);
+    this.$emit('blur', event);
     this.fillPlaceHolder = null;
-    if ((this.$parent.$options as any).componentName === "ElFormItem") {
+    if ((this.$parent.$options as any).componentName === 'ElFormItem') {
       if (this.validateEvent) {
-        this.$parent.$emit("el.form.blur", [this.currentValue]);
+        this.$parent.$emit('el.form.blur', [this.currentValue]);
       }
     }
+  }
+
+  private mounted(){
+    console.log(this.readonly);
   }
 }
 </script>

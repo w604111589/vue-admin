@@ -9,7 +9,7 @@ import ArticleDetail from './components/ArticleDetail.vue';
 
 @Component({
   name: 'EditForm',
-  components:{ ArticleDetail }
+  components: { ArticleDetail },
 })
 export default class EditForm extends Vue {
 

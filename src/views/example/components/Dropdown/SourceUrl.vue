@@ -14,23 +14,23 @@
   </el-dropdown>
 </template>
 
-<script>
-export default {
-  props: {
-    value: {
-      type: String,
-      default: ''
-    }
-  },
-  computed: {
-    source_uri: {
-      get() {
-        return this.value
-      },
-      set(val) {
-        this.$emit('input', val)
-      }
-    }
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+@Component
+export default class SourceUrl extends Vue {
+  @Prop({ default: '' })
+  private value!: string;
+
+  private get source_uri() {
+    return this.value;
+  }
+
+  private set source_uri(val: string) {
+    this.$emit('input', val);
   }
 }
 </script>
+
+<style scoped lang="scss">
+  
+</style>

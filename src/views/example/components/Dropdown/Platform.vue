@@ -14,33 +14,33 @@
   </el-dropdown>
 </template>
 
-<script>
-export default {
-  props: {
-    value: {
-      required: true,
-      default: () => [],
-      type: Array
-    }
-  },
-  data() {
-    return {
-      platformsOptions: [
+<script lang="ts">
+
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+  @Component
+  export default class Platform extends Vue {
+
+    @Prop({default: () => []})
+    private value!: any[];
+
+    private platformsOptions: any[] =  [
         { key: 'a-platform', name: 'a-platform' },
         { key: 'b-platform', name: 'b-platform' },
-        { key: 'c-platform', name: 'c-platform' }
-      ]
+        { key: 'c-platform', name: 'c-platform' },
+      ];
+
+    private get platforms(){
+      return this.value;
     }
-  },
-  computed: {
-    platforms: {
-      get() {
-        return this.value
-      },
-      set(val) {
-        this.$emit('input', val)
-      }
+
+    private set platforms(val: any[]) {
+      this.$emit('input', val);
     }
   }
-}
 </script>
+
+<style scoped lang="scss">
+  .Platform {
+
+  }
+</style>

@@ -15,3 +15,4 @@ import './tree';
 import './user';
 import './test';
 import './email';
+import './star';

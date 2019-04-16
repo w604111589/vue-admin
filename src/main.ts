@@ -6,6 +6,7 @@ import SvgIcon from 'vue-svgicon';
 import '@/styles/index.scss';
 import '@/icons/components';
 import '@/permission';
+// import '@/icons'; // icon
 
 /**
  * This project originally used easy-mock to simulate data requests,
@@ -36,6 +37,8 @@ Vue.use(SvgIcon, {
 });
 
 Vue.config.productionTip = false;
+
+// window.BaseUploadUrl = 'http://localhost:9091/upload';
 
 // import util from '@/utils/session';
 // util.set('category', 'home');

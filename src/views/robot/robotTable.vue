@@ -105,7 +105,7 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 
-export default class robotTable extends Vue {
+export default class RobotTable extends Vue {
   private list = [];
   private listLoading = true;
   private listQuery = {};
@@ -159,17 +159,10 @@ export default class robotTable extends Vue {
       this.dialogStatus = 'create';
       this.dialogFormVisible = true;
 
-<<<<<<< HEAD
-      this.$nextTick(() => {
-        // console.log(this.$refs['dataForm']);
-        // this.$refs['dataForm'].clearValidate()
-      });
-=======
       // this.$nextTick(() => {
       //   // console.log(this.$refs['dataForm']);
       //   this.$refs['dataForm'].clearValidate()
       // })
->>>>>>> 0da5d03cdd9abf7f9bc82be4e805863a8b375398
   }
 }
 </script>

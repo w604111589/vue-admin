@@ -14,23 +14,27 @@
   </el-dropdown>
 </template>
 
-<script>
-export default {
-  props: {
-    value: {
-      type: Boolean,
-      default: false
+<script lang="ts">
+
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+  @Component
+  export default class Comment extends Vue {
+
+    @Prop({default: false})
+    private value!: string;
+
+    private get comment_disabled() {
+      return this.value;
     }
-  },
-  computed: {
-    comment_disabled: {
-      get() {
-        return this.value
-      },
-      set(val) {
-        this.$emit('input', val)
-      }
+
+    private set comment_disabled(val: any) {
+      this.$emit('input', val);
     }
   }
-}
 </script>
+
+<style scoped lang="scss">
+  .Comment {
+
+  }
+</style>

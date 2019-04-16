@@ -16,7 +16,7 @@
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
-        action="https://httpbin.org/post"
+        action="http://localhost:9091/upload"
         list-type="picture-card"
       >
         <el-button size="small" type="primary">点击上传</el-button>
@@ -28,12 +28,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Prop } from "vue-property-decorator";
-import { privateDecrypt } from "crypto";
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+import { privateDecrypt } from 'crypto';
 
 @Component
 export default class EditorSlideUpload extends Vue {
-  @Prop({ default: "#1890ff" })
+  @Prop({ default: '#1890ff' })
   private color!: string;
 
   private dialogVisible: boolean = false;
@@ -42,19 +42,19 @@ export default class EditorSlideUpload extends Vue {
 
   private checkAllSuccess() {
     return Object.keys(this.listObj).every(
-      item => this.listObj[item].hasSuccess
+      (item: any) => this.listObj[item].hasSuccess,
     );
   }
 
   private handleSubmit() {
-    const arr = Object.keys(this.listObj).map(v => this.listObj[v]);
+    const arr = Object.keys(this.listObj).map((v: any) => this.listObj[v]);
     if (!this.checkAllSuccess()) {
       this.$message(
-        "请等待所有图片上传成功 或 出现了网络问题，请刷新页面重新上传！"
+        '请等待所有图片上传成功 或 出现了网络问题，请刷新页面重新上传！',
       );
       return;
     }
-    this.$emit("successCBK", arr);
+    this.$emit('successCBK', arr);
     this.listObj = {};
     this.fileList = [];
     this.dialogVisible = false;
@@ -65,7 +65,8 @@ export default class EditorSlideUpload extends Vue {
     const objKeyArr = Object.keys(this.listObj);
     for (let i = 0, len = objKeyArr.length; i < len; i++) {
       if (this.listObj[objKeyArr[i]].uid === uid) {
-        this.listObj[objKeyArr[i]].url = response.files.file;
+        // this.listObj[objKeyArr[i]].url = response.files.file;
+        this.listObj[objKeyArr[i]].url = response.data.pathurl;
         this.listObj[objKeyArr[i]].hasSuccess = true;
         return;
       }
