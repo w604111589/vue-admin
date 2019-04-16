@@ -1,8 +1,7 @@
 <template>
-  <div :style="{width:width, height:height,zIndex:zIndex}" class="simplemde-container">
+  <div :style="{ width:width, height:height,zIndex:zIndex}" class="simplemde-container">
     <textarea :id="id"/>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -19,9 +18,9 @@ export default class MarkdownEditer extends Vue {
   @Prop({ default: false }) private autofocus!: boolean;
   @Prop({ default: '' }) private placeholder!: string;
   @Prop({ default: '100%' }) private width!: string;
-  @Prop({ default: "100%" }) private height!: string;
+  @Prop({ default: '100%' }) private height!: string;
   @Prop({ default: 10 }) private zIndex!: number;
-  @Prop({ default: "" }) private toolbar!: any;
+  @Prop({ default: '' }) private toolbar!: any;
 
   private simplemde: any = null;
   private hasChange: boolean = false;
