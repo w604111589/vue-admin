@@ -37,8 +37,11 @@ export default class SideBar extends Vue {
     let category = util.get('category');
 
     if (!category) {
-      util.set('category', 'home');
-      category = 'home';
+      util.set('category', 'console');
+      category = 'console';
+    }
+    if (['robot', 'exchange', 'console'].indexOf(category) === -1) {
+      return [];
     }
     let newRoutes = [];
     for (let val in routes ) {

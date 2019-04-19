@@ -6,8 +6,8 @@
     <el-dropdown-menu slot="dropdown" class="no-padding">
       <el-dropdown-item>
         <el-radio-group v-model="comment_disabled" style="padding: 10px;">
-          <el-radio :label="true">关闭评论</el-radio>
-          <el-radio :label="false">打开评论</el-radio>
+          <el-radio :label="1">关闭评论</el-radio>
+          <el-radio :label="0">打开评论</el-radio>
         </el-radio-group>
       </el-dropdown-item>
     </el-dropdown-menu>
@@ -20,14 +20,14 @@
   @Component
   export default class Comment extends Vue {
 
-    @Prop({default: false})
-    private value!: string;
+    @Prop({default: 0})
+    private value!: number;
 
     private get comment_disabled() {
       return this.value;
     }
 
-    private set comment_disabled(val: any) {
+    private set comment_disabled(val: number) {
       this.$emit('input', val);
     }
   }

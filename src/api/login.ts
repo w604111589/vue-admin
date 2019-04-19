@@ -2,10 +2,10 @@ import request from '@/utils/request';
 
 export const login = (username: string, password: string) =>
   request({
-    url: '/user/login',
+    url: '/login',
     method: 'post',
     data: {
-      user_name: username,
+      username,
       password,
     },
   });

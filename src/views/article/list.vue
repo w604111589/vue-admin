@@ -96,8 +96,8 @@ import { fetchList } from '@/api/article';
         deleted: 'danger',
       };
       return statusMap[status];
-    }
-  }
+    },
+  },
 })
 export default class ArticleList extends Vue {
   private list: any[] = [];

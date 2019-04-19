@@ -8,11 +8,6 @@
         </div>
         <div class="left div-two">
           <ul class="header-ul">
-            <!-- <li> 
-							<router-link to="/" @click="changeCategory('Home')" >首页</router-link>
-						</li>
-						<li> <router-link to="/exchange" @click="changeCategory('exchange')" >交易所</router-link> </li>
-            <li> <router-link to="/robot"  @click="changeCategory('robot')">机器人</router-link> </li>-->
             <li>
               <span
                 @click="changeCategory('home','/')"
@@ -21,22 +16,37 @@
             </li>
             <li>
               <span
+                @click="changeCategory('store','/store')"
+                :class="menuType == 'store'? 'header-style':''"
+              >商城</span>
+            </li>
+
+            <li>
+              <span
                 @click="changeCategory('exchange','/form')"
                 :class="menuType == 'exchange'? 'header-style':''"
               >{{$t('header.exchange')}}</span>
             </li>
             <li>
               <span
-                @click="changeCategory('robot','/robot')"
-                :class="menuType == 'robot'? 'header-style':''"
+                @click="changeCategory('console','/console')"
+                :class="menuType == 'console'? 'header-style':''"
               >{{$t('header.robot')}}</span>
+            </li>
+
+            <li>
+              <span
+                @click="changeCategory('course','/course')"
+                :class="menuType == 'course'? 'header-style':''"
+              >教程</span>
             </li>
           </ul>
         </div>
         <div class="right">
           <ul class="header-ul">
             <li>
-              <img src="../../assets/img/user_img.png" width="26" height="26" class="header-ul-img">
+              <!-- <img src="../../assets/img/user_img.png" width="26" height="26" class="header-ul-img"> -->
+              <img :src="avatar" width="26" height="26" class="header-ul-img">
               {{name}}
             </li>
             <li>
@@ -92,12 +102,16 @@ export default class HeaderIndex extends Vue {
     this.langName = lang;
   }
 
-  get name() {
+  private get name() {
     return UserModule.name;
   }
 
+  private get avatar() {
+    return UserModule.avatar;
+  }
+
   // 计算属性（等同与computed）
-  get show(): boolean {
+  private get show(): boolean {
     const currentRoute = this.$route.path;
     if (currentRoute === '/login' || currentRoute === '/register') {
       return false;
@@ -151,7 +165,7 @@ export default class HeaderIndex extends Vue {
   height: 60px;
   width: 100%;
   text-align: left;
-  z-index: 100;
+  z-index: 5;
 }
 .web-name .div-one img {
   position: relative;

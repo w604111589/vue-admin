@@ -136,11 +136,15 @@
 
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
-import request from "@/utils/request";
+// import request from "@/utils/request";
+import RequestSpecical from "@/utils/request_special";
+import { uploadAvatar } from "@/api/user";
 import language from "./utils/language";
 import mimes from "./utils/mimes";
 import data2blob from "./utils/data2blob";
 import effectRipple from "./utils/effectRipple";
+import { Message } from 'element-ui';
+import { UserModule } from '@/store/modules/user';
 
 @Component
 export default class ImageCropper extends Vue {
@@ -195,6 +199,9 @@ export default class ImageCropper extends Vue {
   private withCredentials!: boolean;
 
   // private lang: any = language['zh'];
+  private mounted() {
+    console.log(this.url);
+  }
 
   private get mime() {
     const allowImgFormat = ["jpg", "png"];
@@ -221,7 +228,7 @@ export default class ImageCropper extends Vue {
     return isSupported;
   }
 
-  //浏览器是否支持触屏事件
+  // 浏览器是否支持触屏事件
   private isSupportTouch: boolean = document.hasOwnProperty("ontouchstart");
   // 步骤
   private step: number = 1; // 1选择文件 2剪裁 3上传
@@ -229,7 +236,7 @@ export default class ImageCropper extends Vue {
   private loading: number = 0; // 0未开始 1正在 2成功 3错误
   //
   private progress: number = 0;
-  //是否有错误及错误信息
+  // 是否有错误及错误信息
   private hasError: boolean = false;
   private errorMsg: string = "";
   // 需求图宽高比
@@ -259,7 +266,7 @@ export default class ImageCropper extends Vue {
   private sourceImgContainer: any = {
     // sic
     width: 240,
-    height: 184 // 如果生成图比例与此一致会出现bug，先改成特殊的格式吧，哈哈哈
+    height: 184, // 如果生成图比例与此一致会出现bug，先改成特殊的格式吧，哈哈哈
   };
 
   // 原图展示属性
@@ -279,7 +286,7 @@ export default class ImageCropper extends Vue {
     minWidth: 0, // 最宽
     minHeight: 0,
     naturalWidth: 0, // 原宽
-    naturalHeight: 0
+    naturalHeight: 0,
   };
 
   // 进度条样式
@@ -389,7 +396,7 @@ export default class ImageCropper extends Vue {
   }
 
   // 设置步骤
-  setStep(no: number) {
+  private setStep(no: number) {
     // 延时是为了显示动画效果呢，哈哈哈
     setTimeout(() => {
       this.step = no;
@@ -397,7 +404,7 @@ export default class ImageCropper extends Vue {
   }
   /* 图片选择区域函数绑定
      ---------------------------------------------------------------*/
-  preventDefault(e: any) {
+  private preventDefault(e: any) {
     e.preventDefault();
     return false;
   }
@@ -454,7 +461,7 @@ export default class ImageCropper extends Vue {
 
   // 设置图片源
   private setSourceImg(file: any) {
-    let that: any = this,
+    const that: any = this,
       fr = new FileReader();
     fr.onload = function(e) {
       that.sourceImgUrl = fr.result;
@@ -743,7 +750,8 @@ export default class ImageCropper extends Vue {
   private prepareUpload() {
     const { url, createImgUrl, field, ki } = this;
     this.$emit('crop-success', createImgUrl, field, ki);
-    if (typeof url === 'string' && url) {
+    // if (typeof url === 'string' && url) {
+    if (url) {
       this.upload();
     } else {
       this.off();
@@ -752,7 +760,7 @@ export default class ImageCropper extends Vue {
   // 上传图片
   private upload() {
     // tslint:disable-next-line:one-variable-per-declaration
-    let that = this,
+    const that = this,
       {
         lang,
         imgFormat,
@@ -763,14 +771,16 @@ export default class ImageCropper extends Vue {
         field,
         ki,
         createImgUrl,
-        withCredentials
+        withCredentials,
       } = this,
       fmData = new FormData();
     fmData.append(
-      field,
+      'file',
       data2blob(createImgUrl, mime),
-      field + "." + imgFormat
+      field + "." + imgFormat,
     );
+
+
     // 添加其他参数
     if (typeof params === 'object' && params) {
       Object.keys(params).forEach((k: any) => {
@@ -788,14 +798,15 @@ export default class ImageCropper extends Vue {
     that.reset();
     that.loading = 1;
     that.setStep(3);
-    request({
+    RequestSpecical({
       url,
       method: "post",
-      data: fmData
+      data: fmData,
     })
       .then((resData: any) => {
         that.loading = 2;
-        that.$emit("crop-upload-success", resData.data);
+        this.saveImage( resData.data.pathurl);
+        that.$emit("crop-upload-success", resData.data.pathurl);
       })
       .catch((err: any) => {
         if (that.value) {
@@ -805,6 +816,20 @@ export default class ImageCropper extends Vue {
           that.$emit("crop-upload-fail", err, field, ki);
         }
       });
+  }
+  /**
+   * 保存图片到数据库
+   */
+  private saveImage(avatarUrl: string) {
+    uploadAvatar({ 'avatarUrl' : avatarUrl}).then((response: any) => {
+      UserModule.setAvatar(avatarUrl);
+      Message({
+        message: response.msg,
+        type: 'success',
+        duration: 5 * 1000,
+      });
+    });
+
   }
 
   private created() {
@@ -1281,7 +1306,7 @@ export default class ImageCropper extends Vue {
   margin: 0 auto;
   width: 180px;
   height: 8px;
-  vertical-align: top;
+  // vertical-align: top;
   background: transparent;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -1698,7 +1723,7 @@ export default class ImageCropper extends Vue {
   height: 24px;
   color: #d10;
   text-align: center;
-  vertical-align: top;
+  // vertical-align: top;
 }
 .vue-image-crop-upload .vicp-wrap .vicp-success {
   color: #4a7;

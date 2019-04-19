@@ -19,7 +19,7 @@ import '@/permission';
 
 import App from '@/App.vue';
 import store from '@/store';
-import router from '@/router';
+import router from '@/router/index';
 import '@/registerServiceWorker';
 // import i18n from '@/lang';
 
@@ -38,7 +38,6 @@ Vue.use(SvgIcon, {
 
 Vue.config.productionTip = false;
 
-// window.BaseUploadUrl = 'http://localhost:9091/upload';
 
 // import util from '@/utils/session';
 // util.set('category', 'home');

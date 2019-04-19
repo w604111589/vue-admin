@@ -3,24 +3,23 @@ import qs from 'qs';
 import { Message, MessageBox } from 'element-ui';
 import { getToken } from '@/utils/auth';
 import { UserModule } from '@/store/modules/user';
-import config from '@/utils/config';
 
 const service = axios.create({
   // baseURL: process.env.VUE_APP_MOCK_API,
-  baseURL: config.BaseUrlCustom,
+  baseURL: 'http://47.74.250.188/',
   timeout: 5000,
 });
-
 axios.defaults.headers = {
   // 'Content-Type': 'application/x-www-form-urlencoded',
-  'Content-Type': 'application/json',
 };
 // Request interceptors
 service.interceptors.request.use(
-  (config: any) => {
+  (config) => {
     const token = getToken();
-    if ( token ) {
-      config.headers['token'] = getToken();
+    // Do something before request is sent
+    if (token) {
+      // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
+      config.headers['X-Token'] = getToken()
     }
     return config;
   },

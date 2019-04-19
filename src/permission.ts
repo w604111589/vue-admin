@@ -8,7 +8,11 @@ import { UserModule } from '@/store/modules/user';
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login'];
+/**
+ * @author wt
+ * 设置不需要登陆就能浏览的路由百名单
+ */
+const whiteList = ['/login', '/register', '/' , '/course' , '/course/detail' , '/store' , '/404'];
 
 router.beforeEach((to: Route, from: Route, next: any) => {
   NProgress.start();

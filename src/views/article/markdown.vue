@@ -2,7 +2,7 @@
   <div class="createPost-container">
     <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
       <sticky :class-name="'sub-navbar '+postForm.status">
-        <CommentDropdown v-model="postForm.abstract"/>
+        <CommentDropdown v-model="postForm.comment_disabled"/>
         <PlatformDropdown v-model="postForm.platforms"/>
         <SourceUrlDropdown v-model="postForm.source_uri"/>
         <el-button
@@ -16,11 +16,16 @@
 
       <div class="createPost-main-container">
         <el-row>
-          <Warning/>
-
           <el-col :span="24">
             <el-form-item style="margin-bottom: 40px;" prop="title">
-              <MDinput v-model="postForm.title" :maxlength="100" name="name" :readonly="readAccess" :disabled="readAccess" required>标题1</MDinput>
+              <MDinput
+                v-model="postForm.title"
+                :maxlength="100"
+                name="name"
+                :readonly="readAccess"
+                :disabled="readAccess"
+                required
+              >标题</MDinput>
             </el-form-item>
 
             <div class="postInfo-container">
@@ -83,34 +88,42 @@
           <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}字</span>
         </el-form-item>
 
-        <div class="editor-container">
-          <Tinymce ref="editor" :height="400" v-model="postForm.content"/>
+        <div style="margin-bottom:20px;font-size: 14px;color: #606266;">
+          文章头图：
+          <Upload v-model="postForm.image_uri" />
         </div>
 
-        <!-- <div style="margin-bottom: 20px;">
-          <Upload v-model="postForm.image_uri"/>
-        </div> -->
+        <div class="editor-container">
+          <markdown-editor
+            id="contentEditor"
+            ref="contentEditor"
+            v-model="postForm.content"
+            :height="300"
+            :z-index="20"
+          />
+        </div>
+
+
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import Tinymce from '@/components/Tinymce/index.vue';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import MarkdownEditor from '@/components/MarkdownEditor/index.vue';
 import Upload from '@/components/Upload/singleImage3.vue';
 import MDinput from '@/components/MDinput/index.vue';
 import Sticky from '@/components/Sticky/index.vue'; // 粘性header组件
 import { validateURL } from '@/utils/validate';
 import { fetchArticle, updateArticle, createArticle } from '@/api/article';
 import { userSearch } from '@/api/remoteSearch';
-import Warning from './Warning.vue';
 import { Message } from 'element-ui';
 import {
   CommentDropdown,
   PlatformDropdown,
   SourceUrlDropdown,
-} from './Dropdown';
+} from './components/Dropdown';
 
 const defaultForm = {
   status: 0,
@@ -122,9 +135,9 @@ const defaultForm = {
   release_time: undefined, // 前台展示时间
   id: undefined,
   platforms: ['a-platform'],
-  comment_disabled: false,
+  comment_disabled: 0, //0：打开；1：关闭
   importance: 0,
-  type: 2,
+  type: 1,
 };
 
 const validateRequire = (rule: any, value: any, callback: any) => {
@@ -156,19 +169,18 @@ const validateSourceUri = (rule: any, value: any, callback: any) => {
 
 @Component({
   components: {
-    Tinymce,
     MDinput,
     Upload,
     Sticky,
-    Warning,
     CommentDropdown,
     PlatformDropdown,
     SourceUrlDropdown,
-  },
+    MarkdownEditor,
+  }
 })
-export default class ArticleDetail extends Vue {
-  @Prop({ default: false })
-  private isEdit!: boolean;
+export default class Markdown extends Vue {
+  // @Prop({ default: false })
+  // private isEdit!: boolean;
 
   private postForm: any = Object.assign({}, defaultForm);
   private loading: boolean = false;
@@ -180,17 +192,22 @@ export default class ArticleDetail extends Vue {
     source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
   };
   private tempRoute: any = {};
-
-  private get readAccess() {
-    return this.isEdit ? true : false;
-  }
-
+  private html: string = '';
 
   private get contentShortLength() {
     return this.postForm.abstract.length;
   }
   private set contentShortLength(val) {
     this.postForm.abstract.length = val;
+  }
+
+  private get isEdit() {
+    const id = this.$route.params && this.$route.params.id;
+    return id ? true : false;
+  }
+
+  private get readAccess() {
+    return this.isEdit ? true : false;
   }
 
   private get lang() {
@@ -215,20 +232,10 @@ export default class ArticleDetail extends Vue {
         // this.postForm.title += `   Article Id:${this.postForm.id}`;
         // this.postForm.abstract += `   Article Id:${this.postForm.id}`;
 
-        // Set tagsview title
-        // this.setTagsViewTitle();
       })
       .catch((err: any) => {
         console.log(err);
       });
-  }
-
-  private setTagsViewTitle() {
-    const title = this.lang === 'zh' ? '编辑文章' : 'Edit Article';
-    const route = Object.assign({}, this.tempRoute, {
-      title: `${title}-${this.postForm.id}`
-    });
-    this.$store.dispatch('updateVisitedView', route);
   }
 
   private submitForm() {
@@ -238,28 +245,37 @@ export default class ArticleDetail extends Vue {
         if (this.isEdit) {
           updateArticle(this.postForm)
             .then((response: any) => {
-              console.log(response);
+              this.$message({
+                message: '更新成功',
+                type: 'success',
+                duration: 1000,
+              });
             })
             .catch((err: any) => {
-              console.log(err);
+              this.$message({
+                message: '更新失败',
+                type: 'error',
+                duration: 1000,
+              });
             });
         } else {
           createArticle(this.postForm)
             .then((response: any) => {
-              console.log(response);
+              this.$message({
+                message: '创建成功',
+                type: 'success',
+                duration: 1000,
+              });
             })
             .catch((err: any) => {
-              console.log(err);
+              this.$message({
+                message: '创建失败',
+                type: 'error',
+                duration: 1000,
+              });
             });
         }
 
-        this.$notify({
-          title: '成功',
-          message: '发布文章成功',
-          type: 'success',
-          duration: 2000,
-        });
-        // this.postForm.status = 'published';
         this.postForm.status = 1;
         this.loading = false;
       } else {
@@ -305,10 +321,10 @@ export default class ArticleDetail extends Vue {
     }
 
     this.$message({
-      message: "保存成功",
-      type: "success",
+      message: '保存成功',
+      type: 'success',
       showClose: true,
-      duration: 1000
+      duration: 1000,
     });
     // this.postForm.status = 'draft';
     this.postForm.status = 0;
@@ -322,6 +338,7 @@ export default class ArticleDetail extends Vue {
       this.userListOptions = response.data.items.map((v: any) => v.username);
     });
   }
+
 }
 </script>
 <style lang="scss" scoped>

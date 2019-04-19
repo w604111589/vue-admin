@@ -26,3 +26,8 @@ declare module 'simplemde'{
   const value: any;
   export default value;
 }
+
+declare module 'velocity-animate'{
+  const value: any;
+  export default value;
+}

@@ -22,7 +22,7 @@ class User extends VuexModule implements IUserState {
   public async Login(userInfo: { username: string, password: string}) {
     const username = userInfo.username.trim();
     const data: any = await login(username, userInfo.password);
-    const token = JSON.stringify(data.token);
+    const token = data.data.token;
     setToken(token);
     return token;
   }
@@ -34,6 +34,11 @@ class User extends VuexModule implements IUserState {
     return '';
   }
 
+  @Action({ commit: 'SET_AVATAR' })
+  public async setAvatar(avatar: string) {
+    return avatar;
+  }
+
   @MutationAction({ mutate: [ 'role', 'name', 'avatar' ] })
   public async GetInfo() {
     const token = getToken();
@@ -41,10 +46,11 @@ class User extends VuexModule implements IUserState {
       throw Error('GetInfo: token is undefined!');
     }
     const { data } = await getInfo(token);
-    if (data.role.length > 0) {
+    const role = [data.role];
+    if (role.length > 0) {
       return {
-        role: data.role,
-        name: data.user_name,
+        role,
+        name: data.username,
         avatar: data.avatar,
       };
     } else {
@@ -68,6 +74,11 @@ class User extends VuexModule implements IUserState {
   @Mutation
   private SET_TOKEN(token: string) {
     this.token = token;
+  }
+
+  @Mutation
+  private SET_AVATAR(avatar: string) {
+    this.avatar = avatar;
   }
 }
 

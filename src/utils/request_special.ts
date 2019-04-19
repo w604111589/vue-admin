@@ -4,24 +4,18 @@ import { Message, MessageBox } from 'element-ui';
 import { getToken } from '@/utils/auth';
 import { UserModule } from '@/store/modules/user';
 import config from '@/utils/config';
-
-const service = axios.create({
+console.log(config);
+const RequestSpecial = axios.create({
   // baseURL: process.env.VUE_APP_MOCK_API,
   baseURL: config.BaseUrlCustom,
   timeout: 5000,
 });
-
 axios.defaults.headers = {
   // 'Content-Type': 'application/x-www-form-urlencoded',
-  'Content-Type': 'application/json',
 };
 // Request interceptors
-service.interceptors.request.use(
-  (config: any) => {
-    const token = getToken();
-    if ( token ) {
-      config.headers['token'] = getToken();
-    }
+RequestSpecial.interceptors.request.use(
+  (config) => {
     return config;
   },
 
@@ -31,7 +25,7 @@ service.interceptors.request.use(
 );
 
 // Response interceptors
-service.interceptors.response.use(
+RequestSpecial.interceptors.response.use(
   (response) => {
     // Some example codes here:
     // code == 20000: valid
@@ -47,25 +41,10 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000,
       });
-      if (res.status === 400) {
+      if (res.status === 300) {
         Message({
           message: res.msg,
           type: 'warning',
-        });
-      }
-      if (res.status === 40000 || res.status === 50012 || res.status === 50014) {
-        MessageBox.confirm(
-          '你已被登出，可以取消继续留在该页面，或者重新登录',
-          '确定登出',
-          {
-            confirmButtonText: '重新登录',
-            cancelButtonText: '取消',
-            type: 'warning',
-          },
-        ).then(() => {
-          UserModule.FedLogOut().then(() => {
-            // location.reload();  // To prevent bugs from vue-router
-          });
         });
       }
       return Promise.reject('error with code: ' + res.status);
@@ -83,4 +62,4 @@ service.interceptors.response.use(
   },
 );
 
-export default service;
+export default RequestSpecial;

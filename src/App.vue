@@ -4,14 +4,12 @@
     <div>
       <router-view/>
     </div>
-
-
   </div>
 </template>
 
 <script lang="ts">
 
-  import Header from "@/views/header/Index.vue";
+  import Header from '@/views/header/Index.vue';
   import { Vue, Component } from 'vue-property-decorator';
 
   @Component({

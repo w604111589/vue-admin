@@ -1,19 +1,22 @@
 <template>
-  <div class="app-container article">
-  </div>
+  <article-detail :is-edit="false"/>
 </template>
 
 <script lang="ts">
 
-  import { Component, Prop, Vue } from 'vue-property-decorator';
-  @Component
-  export default class articleCreate extends Vue {
+import { Component, Vue} from 'vue-property-decorator';
+import ArticleDetail from './components/ArticleDetail.vue';
 
-  }
+@Component({
+  components: {
+    ArticleDetail,
+  },
+})
+export default class CreateForm extends Vue {
+
+}
+
 </script>
+<style lang="scss" scoped>
 
-<style scoped lang="scss">
-  .article {
-
-  }
 </style>

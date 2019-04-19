@@ -71,7 +71,7 @@ export default {
     en: '英文',
     loginout: '退出',
     exchange: '交易所',
-    robot: '机器人',
+    robot: '控制台',
     plat_name: '量化策略平台',
   },
   navbar: {

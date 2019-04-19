@@ -93,8 +93,8 @@ export default class Login extends Vue {
 
         UserModule.Login(this.loginForm).then(() => {
           this.loading = false;
-
-          this.$router.push({ path: this.redirect || '/' });
+          // 登陆成功跳去控制台
+          this.$router.push({ path: this.redirect || '/dashboard' });
         }).catch((err) => {
           this.loading = false;
         });

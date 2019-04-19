@@ -206,9 +206,6 @@ export default class MdIput extends Vue {
     }
   }
 
-  private mounted(){
-    console.log(this.readonly);
-  }
 }
 </script>
 <style lang="scss" scoped>

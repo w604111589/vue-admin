@@ -16,7 +16,7 @@
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
-        action="http://localhost:9091/upload"
+        :action="config.BaseUrlCustom+'upload'"
         list-type="picture-card"
       >
         <el-button size="small" type="primary">点击上传</el-button>
@@ -30,6 +30,7 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import { privateDecrypt } from 'crypto';
+import defaultconfig from '@/utils/config';
 
 @Component
 export default class EditorSlideUpload extends Vue {
@@ -45,6 +46,8 @@ export default class EditorSlideUpload extends Vue {
       (item: any) => this.listObj[item].hasSuccess,
     );
   }
+
+  private config: any = defaultconfig;
 
   private handleSubmit() {
     const arr = Object.keys(this.listObj).map((v: any) => this.listObj[v]);

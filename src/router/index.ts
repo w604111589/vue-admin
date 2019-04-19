@@ -31,6 +31,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
       meta: { hidden: true},
     },
+
     {
       path: '/404',
       name: '404',
@@ -39,12 +40,44 @@ export default new Router({
     },
     {
       path: '/',
-      component: Layout,
-      redirect: '/dashboard',
-      name: 'Dashboard1',
+      name: 'home',
+      component: () => import('@/views/home/index.vue'),
       meta: { hidden: true },
+    },
+    {
+      path: '/',
+      name: 'home',
+      component: () => import('@/views/home/index.vue'),
+      meta: { hidden: true },
+    },
+    {
+      path: '/course',
+      name: 'home',
+      component: () => import('@/views/front/article/index.vue'),
+      meta: { hidden: true },
+    },
+    {
+      path: '/course/detail',
+      name: 'home',
+      component: () => import('@/views/front/article/detail.vue'),
+      meta: { hidden: true },
+    },
+
+    // {
+    //   path: '/store',
+    //   redirect: '/store/index',
+    //   name: '',
+    //   component: () => import('@/views/home/index.vue'),
+    //   meta: { hidden: true },
+    // },
+    {
+      path: '/dashboard',
+      component: Layout,
+      redirect: '/dashboard/index',
+      name: 'Dashboard',
+      meta: { title: 'Dashboard', icon: 'form', category: 'console' },
       children: [{
-        path: 'dashboard',
+        path: 'index',
         name: 'dashboard',
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'),
       }],
@@ -54,7 +87,7 @@ export default new Router({
       component: Layout,
       redirect: '/log/index',
       name: 'Log',
-      meta: { title: 'log', icon: 'form', category: 'home' },
+      meta: { title: 'log', icon: 'form', category: 'console' },
       children: [{
         path: 'index',
         name: 'Log',
@@ -66,7 +99,7 @@ export default new Router({
       component: Layout,
       redirect: '/message/index',
       name: 'Log',
-      meta: { title: 'message', icon: 'email', category: 'home' },
+      meta: { title: 'message', icon: 'email', category: 'console' },
       children: [{
         path: 'index',
         name: 'message',
@@ -74,32 +107,11 @@ export default new Router({
       }],
     },
     {
-      path: '/example',
+      path: '/console',
       component: Layout,
-      redirect: '/example/table',
-      name: 'Example',
-      meta: { title: 'Example3', icon: 'example' , category: 'home'  },
-      children: [
-        {
-          path: 'table',
-          name: 'Table',
-          component: () => import(/* webpackChunkName: "table" */ '@/views/table/index.vue'),
-          meta: { title: 'Table', icon: 'table', isChildren: 'yes' },
-        },
-        {
-          path: 'tree',
-          name: 'Tree',
-          component: () => import(/* webpackChunkName: "tree" */ '@/views/tree/index.vue'),
-          meta: { title: 'Tree', icon: 'tree', isChildren: 'yes' },
-        },
-      ],
-    },
-    {
-      path: '/robot',
-      component: Layout,
-      redirect: '/robot/index',
+      redirect: '/console/index',
       name: 'Robot',
-      meta: { title: 'Robot', icon: 'example' , category: 'robot' },
+      meta: { title: 'Robot', icon: 'example' , category: 'console' },
       children: [
         {
           path: 'index',
@@ -147,37 +159,37 @@ export default new Router({
       meta: {
         title: 'components',
         icon: 'example',
-        category: 'home',
+        category: 'console',
       },
       children: [
         {
           path: 'mcreate',
-          component: () => import('@/views/example/markdown.vue'),
+          component: () => import('@/views/article/markdown.vue'),
           name: 'mcreate',
           meta: { title: 'markdown', icon: 'form' },
         },
         {
           path: 'medit/:id(\\d+)',
-          component: () => import('@/views/example/markdown.vue'),
+          component: () => import('@/views/article/markdown.vue'),
           name: 'medit',
           meta: { title: 'markdown', icon: 'form' , hidden: true },
         },
         {
           path: 'create',
-          component: () => import('@/views/example/create.vue'),
+          component: () => import('@/views/article/create.vue'),
           name: 'ArticleCreate',
           meta: { title: 'create', icon: 'form' },
         },
 
         {
           path: 'edit/:id(\\d+)',
-          component: () => import('@/views/example/edit.vue'),
+          component: () => import('@/views/article/edit.vue'),
           name: 'ArticleEdit',
           meta: { title: 'edit', icon: 'form', hidden: true },
         },
         {
           path: 'list',
-          component: () => import('@/views/example/list.vue'),
+          component: () => import('@/views/article/list.vue'),
           name: 'ArticleList',
           meta: { title: 'list', icon: 'form' },
         },
@@ -188,7 +200,7 @@ export default new Router({
           meta: { title: 'avatarUpload', icon: 'form' },
         },
 
-      ]
+      ],
     },
     {
       path: '*',
