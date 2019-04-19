@@ -17,7 +17,7 @@ axios.defaults.headers = {
 };
 // Request interceptors
 service.interceptors.request.use(
-  (config: any) => {
+  (config) => {
     const token = getToken();
     if ( token ) {
       config.headers['token'] = getToken();

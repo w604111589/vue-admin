@@ -5,7 +5,16 @@
  */
 
 // 全局请求路由地址
-const BaseUrlCustom = "http://localhost:9091";
+let BaseUrlCustom = "http://localhost:9091";
+
+switch (location.hostname) {
+  case 'localhost':
+  case '127.0.0.1':
+    BaseUrlCustom = "http://localhost:9091";
+    break;
+  default:
+    BaseUrlCustom = '/';
+}
 
 const config = {
   BaseUrlCustom,
