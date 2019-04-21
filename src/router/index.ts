@@ -117,7 +117,7 @@ export default new Router({
           path: 'index',
           name: 'Index',
           component: () => import(/* webpackChunkName: "table" */ '@/views/robot/index.vue'),
-          meta: { title: 'Table', icon: 'table' , isChildren: 'yes' },
+          meta: { title: 'Label', icon: 'table' , isChildren: 'yes' },
         },
         {
           path: 'table',

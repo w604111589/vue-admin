@@ -1,5 +1,14 @@
 <template>
   <div class="app-container">
+
+    <el-drag-select v-model="value" style="width:320px;margin-bottom:20px;" multiple placeholder="请选择">
+      <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value" />
+    </el-drag-select>
+
+    <!-- <div style="margin-top:30px;">
+      <el-tag v-for="item of value" :key="item" style="margin-right:15px;">{{ item }}</el-tag>
+    </div> -->
+    <!-- <DragSelect v-model="label" /> -->
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -12,30 +21,20 @@
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="label_name" align="center">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column class-name="status-col" label="Status"  align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <el-tag>{{ scope.row.status| statusFilter }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.pageviews }}
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <el-table-column align="center" prop="create_time" label="create_time" >
         <template slot-scope="scope">
           <i class="el-icon-time"/>
-          <span>{{ scope.row.display_time }}</span>
+          <span>{{ scope.row.create_time }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -43,25 +42,34 @@
 </template>
 
 <script lang="ts">
-import { getSonUser } from '@/api/table';
+
 import { Component, Vue } from 'vue-property-decorator';
+import { getLabel } from '@/api/log';
+import elDragSelect from '@/components/DragSelect/index.vue';
 
 @Component({
+  components:{
+    elDragSelect
+  },
   filters: {
-    statusFilter(status: string) {
-      const statusMap: { [id: string]: string } = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger',
-      };
+    statusFilter(status: number) {
+      const statusMap: string[] = ['禁用','启用'];
       return statusMap[status];
     },
   },
 })
 export default class Table extends Vue {
   private list = null;
-  private listLoading = true;
+  private listLoading = false;
   private listQuery = {};
+  private value = ['java','php','vue'];
+  private options: any[]= [
+    {value: 'java', label: 'java'},
+    {value: 'php', label: 'php'},
+    {value: 'vue', label: 'vue'},
+    {value: 'golang', label: 'golang'},
+    {value: 'python', label: 'python'},
+  ];
 
   private created() {
     this.fetchData();
@@ -69,7 +77,7 @@ export default class Table extends Vue {
 
   private fetchData() {
     this.listLoading = true;
-    getSonUser(this.listQuery).then((response) => {
+    getLabel(this.listQuery).then((response) => {
       this.list = response.data.items;
       this.listLoading = false;
     });

@@ -26,7 +26,7 @@ export default class Pagination extends Vue {
   @Prop({default: 'total, sizes, prev, pager, next, jumper'}) private layout!: string;
   @Prop({default: true}) private background!: boolean;
   @Prop({default: true}) private autoScroll!: boolean;
-  @Prop({default: true}) private hidden!: boolean;
+  @Prop({default: false}) private hidden!: boolean;
 
   private get currentPage() {
     return this.page;

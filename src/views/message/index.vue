@@ -8,14 +8,14 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="message_id">
-        <template slot-scope="scope">{{ scope.row.message_id }}</template>
+      <el-table-column align="center" label="id">
+        <template slot-scope="scope">{{ scope.row.id }}</template>
       </el-table-column>
       <el-table-column align="center" label="content">
         <template slot-scope="scope">{{ scope.row.content }}</template>
       </el-table-column>
-      <el-table-column label="state">
-        <template slot-scope="scope">{{ scope.row.state }}</template>
+      <el-table-column label="status">
+        <template slot-scope="scope">{{ scope.row.status }}</template>
       </el-table-column>
       <el-table-column align="center" prop="login_datetime" label="create_time" width="200">
         <template slot-scope="scope">
@@ -39,6 +39,7 @@
 <script lang="ts">
 import { getMessage } from '@/api/log';
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { getToken } from '../../utils/auth';
 @Component
 export default class messageIndex extends Vue {
   private list = [];
@@ -53,7 +54,8 @@ export default class messageIndex extends Vue {
   private fetchData() {
     this.listLoading = true;
     getMessage(this.listQuery).then( (response: any) => {
-      this.list = response.data;
+      this.list = response.data.items;
+      this.pages.total = response.data.total;
       this.listLoading = false;
     });
   }

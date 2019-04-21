@@ -62,7 +62,11 @@
               </el-dropdown>
             </li>
 
-            <li @click="logout">{{$t('header.loginout')}}</li>
+            <li @click="logout" v-show="token">{{$t('header.loginout')}}</li>
+            <li @click="go('/login')" v-show="!token">登陆</li>
+            <li style="margin-left:0px;margin-right:0px;" v-show="!token">|</li>
+            <li @click="go('/register')" v-show="!token">注册</li>
+            <!-- <li><span @click="go('/login')">登陆</span> | <span @click="go('/register')">注册</span></li> -->
           </ul>
         </div>
       </div>
@@ -75,15 +79,24 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import util from '@/utils/session';
 import { UserModule } from '@/store/modules/user';
 import Session from '@/utils/session';
+import { getToken } from '@/utils/auth';
+
 @Component
 export default class HeaderIndex extends Vue {
-  // private show: boolean = true;
   private menuType = 'home';
   private language = Session.get('language') || 'zh';
   private langName = '简体中文';
   private created() {
     if (this.language) {
       this.getlangName(this.language);
+    }
+  }
+
+  private mounted(){
+    const token = getToken();
+    if(token){
+     UserModule.setToken(token) ;
+      // UserModule.token = token;
     }
   }
 
@@ -110,12 +123,18 @@ export default class HeaderIndex extends Vue {
     return UserModule.avatar;
   }
 
+  private get token() {
+    return UserModule.token;
+  }
+
+  
+
   // 计算属性（等同与computed）
   private get show(): boolean {
     const currentRoute = this.$route.path;
-    if (currentRoute === '/login' || currentRoute === '/register') {
-      return false;
-    }
+    // if (currentRoute === '/login' || currentRoute === '/register') {
+    //   return false;
+    // }
     return true;
   }
 

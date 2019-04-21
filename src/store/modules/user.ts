@@ -39,6 +39,11 @@ class User extends VuexModule implements IUserState {
     return avatar;
   }
 
+  @Action({ commit: 'SET_TOKEN' })
+  public async setToken(token: string) {
+    return token;
+  }
+
   @MutationAction({ mutate: [ 'role', 'name', 'avatar' ] })
   public async GetInfo() {
     const token = getToken();

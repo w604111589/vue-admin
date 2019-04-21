@@ -107,7 +107,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 export default class RobotTable extends Vue {
   private list = [];
-  private listLoading = true;
+  private listLoading = false;
   private listQuery = {};
   private dialogFormVisible = false;
   private dialogStatus = '';
@@ -127,11 +127,11 @@ export default class RobotTable extends Vue {
   }
 
   private fetchData() {
-    this.listLoading = true;
-    getSonUser(this.listQuery).then((response) => {
-      this.list = response.data[0];
-      this.listLoading = false;
-    });
+    // this.listLoading = true;
+    // getSonUser(this.listQuery).then((response) => {
+    //   this.list = response.data[0];
+    //   this.listLoading = false;
+    // });
   }
 
   private  resetTemp() {
