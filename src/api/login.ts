@@ -22,3 +22,12 @@ export const logout = () =>
     url: '/user/logout',
     method: 'post',
   });
+
+
+export const registerUser = (query: any) =>
+  request({
+    url: '/register',
+    method: 'post',
+    data: query,
+  });
+

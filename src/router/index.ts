@@ -33,6 +33,13 @@ export default new Router({
     },
 
     {
+      path: '/register',
+      name: 'register',
+      component: () => import(/* webpackChunkName: "login" */ '@/views/login/register.vue'),
+      meta: { hidden: true},
+    },
+
+    {
       path: '/404',
       name: '404',
       component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue') ,
@@ -157,7 +164,7 @@ export default new Router({
       redirect: 'noredirect',
       name: 'ComponentDemo',
       meta: {
-        title: 'components',
+        title: 'Article',
         icon: 'example',
         category: 'console',
       },
@@ -172,13 +179,13 @@ export default new Router({
           path: 'medit/:id(\\d+)',
           component: () => import('@/views/article/markdown.vue'),
           name: 'medit',
-          meta: { title: 'markdown', icon: 'form' , hidden: true },
+          meta: { title: 'markdown', icon: 'edit' , hidden: true },
         },
         {
           path: 'create',
           component: () => import('@/views/article/create.vue'),
           name: 'ArticleCreate',
-          meta: { title: 'create', icon: 'form' },
+          meta: { title: 'create', icon: 'edit' },
         },
 
         {
@@ -191,7 +198,7 @@ export default new Router({
           path: 'list',
           component: () => import('@/views/article/list.vue'),
           name: 'ArticleList',
-          meta: { title: 'list', icon: 'form' },
+          meta: { title: 'list', icon: 'list' },
         },
         {
           path: 'avatar-upload',

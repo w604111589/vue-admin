@@ -48,8 +48,8 @@ import { getLabel } from '@/api/log';
 import elDragSelect from '@/components/DragSelect/index.vue';
 
 @Component({
-  components:{
-    elDragSelect
+  components: {
+    elDragSelect,
   },
   filters: {
     statusFilter(status: number) {
@@ -62,8 +62,8 @@ export default class Table extends Vue {
   private list = null;
   private listLoading = false;
   private listQuery = {};
-  private value = ['java','php','vue'];
-  private options: any[]= [
+  private value = ['java', 'php', 'vue'];
+  private options: any[] = [
     {value: 'java', label: 'java'},
     {value: 'php', label: 'php'},
     {value: 'vue', label: 'vue'},

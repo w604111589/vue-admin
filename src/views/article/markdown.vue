@@ -28,6 +28,23 @@
               >标题</MDinput>
             </el-form-item>
 
+            <div>
+              <span style="font-size:14px;color:#606266">标签：</span>
+              <el-drag-select
+                v-model="postForm.labels"
+                style="width:320px;margin-bottom:20px;"
+                multiple
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in options"
+                  :label="item.label"
+                  :value="item.value"
+                  :key="item.value"
+                />
+              </el-drag-select>
+            </div>
+
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
@@ -119,6 +136,8 @@ import { validateURL } from '@/utils/validate';
 import { fetchArticle, updateArticle, createArticle } from '@/api/article';
 import { userSearch } from '@/api/remoteSearch';
 import { Message } from 'element-ui';
+import { getLabel } from '@/api/log';
+import elDragSelect from '@/components/DragSelect/index.vue';
 import {
   CommentDropdown,
   PlatformDropdown,
@@ -134,6 +153,7 @@ const defaultForm = {
   image_uri: '', // 文章图片
   release_time: undefined, // 前台展示时间
   id: undefined,
+  labels: [],
   platforms: ['a-platform'],
   comment_disabled: 0, //0：打开；1：关闭
   importance: 0,
@@ -176,12 +196,11 @@ const validateSourceUri = (rule: any, value: any, callback: any) => {
     PlatformDropdown,
     SourceUrlDropdown,
     MarkdownEditor,
+    elDragSelect,
   }
 })
 export default class Markdown extends Vue {
-  // @Prop({ default: false })
-  // private isEdit!: boolean;
-
+  private options: any[] = [];
   private postForm: any = Object.assign({}, defaultForm);
   private loading: boolean = false;
   private userListOptions: any[] = [];
@@ -193,6 +212,7 @@ export default class Markdown extends Vue {
   };
   private tempRoute: any = {};
   private html: string = '';
+
 
   private get contentShortLength() {
     return this.postForm.abstract.length;
@@ -222,6 +242,17 @@ export default class Markdown extends Vue {
       this.postForm = Object.assign({}, defaultForm);
     }
     this.tempRoute = Object.assign({}, this.$route);
+    this.fetchLabel();
+  }
+
+  private fetchLabel() {
+    getLabel().then((response: any) => {
+      // tslint:disable-next-line:forin
+      for (let i in response.data.items) {
+        const temp = { value: response.data.items[i].id, label: response.data.items[i].name};
+        this.options.push(temp);
+      }
+    });
   }
 
   private fetchData(id: number | string) {

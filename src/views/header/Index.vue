@@ -38,13 +38,13 @@
               <span
                 @click="changeCategory('course','/course')"
                 :class="menuType == 'course'? 'header-style':''"
-              >教程</span>
+              >文档</span>
             </li>
           </ul>
         </div>
         <div class="right">
           <ul class="header-ul">
-            <li>
+            <li v-show="token">
               <!-- <img src="../../assets/img/user_img.png" width="26" height="26" class="header-ul-img"> -->
               <img :src="avatar" width="26" height="26" class="header-ul-img">
               {{name}}
@@ -127,7 +127,6 @@ export default class HeaderIndex extends Vue {
     return UserModule.token;
   }
 
-  
 
   // 计算属性（等同与computed）
   private get show(): boolean {

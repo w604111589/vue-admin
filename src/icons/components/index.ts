@@ -16,3 +16,5 @@ import './user';
 import './test';
 import './email';
 import './star';
+import './list';
+import './edit';

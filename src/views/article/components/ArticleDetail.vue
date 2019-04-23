@@ -20,8 +20,32 @@
 
           <el-col :span="24">
             <el-form-item style="margin-bottom: 40px;" prop="title">
-              <MDinput v-model="postForm.title" :maxlength="100" name="name" :readonly="readAccess" :disabled="readAccess" required>标题1</MDinput>
+              <MDinput
+                v-model="postForm.title"
+                :maxlength="100"
+                name="name"
+                :readonly="readAccess"
+                :disabled="readAccess"
+                required
+              >标题</MDinput>
             </el-form-item>
+            <div>
+              <span style="font-size:14px;color:#606266">标签：</span>
+              <el-drag-select
+                v-model="postForm.labels"
+                style="width:320px;margin-bottom:20px;"
+                multiple
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in options"
+                  :label="item.label"
+                  :value="item.value"
+                  :key="item.value"
+                />
+              </el-drag-select>
+            </div>
+
 
             <div class="postInfo-container">
               <el-row>
@@ -85,57 +109,59 @@
 
         <div style="margin-bottom:20px;font-size: 14px;color: #606266;">
           文章头图：
-          <Upload v-model="postForm.image_uri" />
+          <Upload v-model="postForm.image_uri"/>
         </div>
 
         <div class="editor-container">
           <Tinymce ref="editor" :height="400" v-model="postForm.content"/>
         </div>
-
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import Tinymce from '@/components/Tinymce/index.vue';
-import Upload from '@/components/Upload/singleImage3.vue';
-import MDinput from '@/components/MDinput/index.vue';
-import Sticky from '@/components/Sticky/index.vue'; // 粘性header组件
-import { validateURL } from '@/utils/validate';
-import { fetchArticle, updateArticle, createArticle } from '@/api/article';
-import { userSearch } from '@/api/remoteSearch';
-import Warning from './Warning.vue';
-import { Message } from 'element-ui';
+import { Component, Vue, Prop } from "vue-property-decorator";
+import Tinymce from "@/components/Tinymce/index.vue";
+import Upload from "@/components/Upload/singleImage3.vue";
+import MDinput from "@/components/MDinput/index.vue";
+import Sticky from "@/components/Sticky/index.vue"; // 粘性header组件
+import { validateURL } from "@/utils/validate";
+import { fetchArticle, updateArticle, createArticle } from "@/api/article";
+import { getLabel } from '@/api/log';
+import { userSearch } from "@/api/remoteSearch";
+import Warning from "./Warning.vue";
+import { Message } from "element-ui";
+import elDragSelect from '@/components/DragSelect/index.vue';
 import {
   CommentDropdown,
   PlatformDropdown,
   SourceUrlDropdown,
-} from './Dropdown';
+} from "./Dropdown";
 
 const defaultForm = {
   status: 0,
-  title: '', // 文章题目
-  content: '', // 文章内容
-  abstract: '', // 文章摘要
-  source_uri: '', // 文章外链
-  image_uri: '', // 文章图片
+  title: "", // 文章题目
+  content: "", // 文章内容
+  abstract: "", // 文章摘要
+  source_uri: "", // 文章外链
+  image_uri: "", // 文章图片
   release_time: undefined, // 前台展示时间
   id: undefined,
-  platforms: ['a-platform'],
-  comment_disabled: 0, //0：打开；1：关闭
+  platforms: ["a-platform"],
+  labels: [],
+  comment_disabled: 0, // 0：打开；1：关闭
   importance: 0,
   type: 2,
 };
 
 const validateRequire = (rule: any, value: any, callback: any) => {
-  if (value === '') {
+  if (value === "") {
     Message({
-      message: rule.field + '为必传项',
-      type: 'error',
+      message: rule.field + "为必传项",
+      type: "error"
     });
-    callback(new Error(rule.field + '为必传项'));
+    callback(new Error(rule.field + "为必传项"));
   } else {
     callback();
   }
@@ -146,10 +172,10 @@ const validateSourceUri = (rule: any, value: any, callback: any) => {
       callback();
     } else {
       Message({
-        message: '外链url填写不正确',
-        type: 'error',
+        message: "外链url填写不正确",
+        type: "error"
       });
-      callback(new Error('外链url填写不正确'));
+      callback(new Error("外链url填写不正确"));
     }
   } else {
     callback();
@@ -166,11 +192,20 @@ const validateSourceUri = (rule: any, value: any, callback: any) => {
     CommentDropdown,
     PlatformDropdown,
     SourceUrlDropdown,
+    elDragSelect,
   },
 })
 export default class ArticleDetail extends Vue {
   @Prop({ default: false })
   private isEdit!: boolean;
+  // private value = ['java', 'php', 'vue'];
+  private options: any[] = [
+    // {value: 'java', label: 'java'},
+    // {value: 'php', label: 'php'},
+    // {value: 'vue', label: 'vue'},
+    // {value: 'golang', label: 'golang'},
+    // {value: 'python', label: 'python'},
+  ];
 
   private postForm: any = Object.assign({}, defaultForm);
   private loading: boolean = false;
@@ -179,14 +214,13 @@ export default class ArticleDetail extends Vue {
     image_uri: [{ validator: validateRequire }],
     title: [{ validator: validateRequire }],
     content: [{ validator: validateRequire }],
-    source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
+    source_uri: [{ validator: validateSourceUri, trigger: "blur" }]
   };
   private tempRoute: any = {};
 
   private get readAccess() {
     return this.isEdit ? true : false;
   }
-
 
   private get contentShortLength() {
     return this.postForm.abstract.length;
@@ -207,6 +241,17 @@ export default class ArticleDetail extends Vue {
       this.postForm = Object.assign({}, defaultForm);
     }
     this.tempRoute = Object.assign({}, this.$route);
+    this.fetchLabel();
+  }
+
+  private fetchLabel() {
+    getLabel().then((response: any) => {
+      // tslint:disable-next-line:forin
+      for (let i in response.data.items) {
+        const temp = { value: response.data.items[i].id, label: response.data.items[i].name};
+        this.options.push(temp);
+      }
+    });
   }
 
   private fetchData(id: number | string) {
@@ -226,11 +271,11 @@ export default class ArticleDetail extends Vue {
   }
 
   private setTagsViewTitle() {
-    const title = this.lang === 'zh' ? '编辑文章' : 'Edit Article';
+    const title = this.lang === "zh" ? "编辑文章" : "Edit Article";
     const route = Object.assign({}, this.tempRoute, {
       title: `${title}-${this.postForm.id}`
     });
-    this.$store.dispatch('updateVisitedView', route);
+    this.$store.dispatch("updateVisitedView", route);
   }
 
   private submitForm() {
@@ -256,16 +301,16 @@ export default class ArticleDetail extends Vue {
         }
 
         this.$notify({
-          title: '成功',
-          message: '发布文章成功',
-          type: 'success',
-          duration: 2000,
+          title: "成功",
+          message: "发布文章成功",
+          type: "success",
+          duration: 2000
         });
         // this.postForm.status = 'published';
         this.postForm.status = 1;
         this.loading = false;
       } else {
-        console.log('error submit!!');
+        console.log("error submit!!");
         return false;
       }
     });
@@ -277,8 +322,8 @@ export default class ArticleDetail extends Vue {
       this.postForm.title.length === 0
     ) {
       this.$message({
-        message: '请填写必要的标题和内容',
-        type: 'warning',
+        message: "请填写必要的标题和内容",
+        type: "warning"
       });
       return;
     }
@@ -287,10 +332,10 @@ export default class ArticleDetail extends Vue {
       updateArticle(this.postForm)
         .then((response: any) => {
           this.$message({
-            message: '保存成功',
-            type: 'success',
+            message: "保存成功",
+            type: "success",
             showClose: true,
-            duration: 1000,
+            duration: 1000
           });
         })
         .catch((err: any) => {
@@ -307,10 +352,10 @@ export default class ArticleDetail extends Vue {
     }
 
     this.$message({
-      message: '保存成功',
-      type: 'success',
+      message: "保存成功",
+      type: "success",
       showClose: true,
-      duration: 1000,
+      duration: 1000
     });
     // this.postForm.status = 'draft';
     this.postForm.status = 0;

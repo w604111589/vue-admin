@@ -15,7 +15,7 @@ export const getMessage = (params: any) =>
   });
 
 
-export const getLabel = (params: any) =>
+export const getLabel = (params?: any) =>
   request({
     url: 'label/index',
     method: 'get',
