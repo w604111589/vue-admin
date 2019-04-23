@@ -29,7 +29,7 @@
             </li>
             <li>
               <span
-                @click="changeCategory('console','/console')"
+                @click="changeCategory('console','/components/list')"
                 :class="menuType == 'console'? 'header-style':''"
               >{{$t('header.robot')}}</span>
             </li>

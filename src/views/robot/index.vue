@@ -1,10 +1,5 @@
 <template>
   <div class="app-container">
-
-    <el-drag-select v-model="value" style="width:320px;margin-bottom:20px;" multiple placeholder="请选择">
-      <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value" />
-    </el-drag-select>
-
     <!-- <div style="margin-top:30px;">
       <el-tag v-for="item of value" :key="item" style="margin-right:15px;">{{ item }}</el-tag>
     </div> -->
@@ -62,14 +57,6 @@ export default class Table extends Vue {
   private list = null;
   private listLoading = false;
   private listQuery = {};
-  private value = ['java', 'php', 'vue'];
-  private options: any[] = [
-    {value: 'java', label: 'java'},
-    {value: 'php', label: 'php'},
-    {value: 'vue', label: 'vue'},
-    {value: 'golang', label: 'golang'},
-    {value: 'python', label: 'python'},
-  ];
 
   private created() {
     this.fetchData();

@@ -79,7 +79,7 @@ export default class Layout extends mixins(ResizeMixin) {
     bottom: 0;
     left: 0;
     // z-index: 1001;
-    z-index: 5;
+    z-index: 100;
     overflow: hidden;
   }
 

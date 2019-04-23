@@ -45,7 +45,7 @@
 
       <el-table-column class-name="status-col" label="Status" width="110">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status| statusFilter }}</el-tag>
         </template>
       </el-table-column>
 
@@ -82,7 +82,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import Pagination from '@/components/Pagination/index.vue';
-import { fetchList } from '@/api/article';
+import { fetchListAdmin } from '@/api/article';
 
 @Component({
   components: {
@@ -90,11 +90,13 @@ import { fetchList } from '@/api/article';
   },
   filters: {
     statusFilter(status: number) {
-      const statusMap: any = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger',
-      };
+      // const statusMap: any = {
+      //   published: 'success',
+      //   draft: 'info',
+      //   deleted: 'danger',
+      // };
+      // return statusMap[status];
+      const statusMap: any = ['已发布', '草稿'];
       return statusMap[status];
     },
   },
@@ -111,7 +113,7 @@ export default class ArticleList extends Vue {
 
   private getList() {
     this.listLoading = true;
-    fetchList(this.listQuery).then((response: any) => {
+    fetchListAdmin(this.listQuery).then((response: any) => {
       this.list = response.data.items;
       this.total = response.data.total;
       this.listLoading = false;

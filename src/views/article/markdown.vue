@@ -1,7 +1,7 @@
 <template>
   <div class="createPost-container">
     <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
-      <sticky :class-name="'sub-navbar '+postForm.status">
+      <sticky :class-name="'sub-navbar '+postForm.status" :zIndex="200" >
         <CommentDropdown v-model="postForm.comment_disabled"/>
         <PlatformDropdown v-model="postForm.platforms"/>
         <SourceUrlDropdown v-model="postForm.source_uri"/>
@@ -133,7 +133,7 @@ import Upload from '@/components/Upload/singleImage3.vue';
 import MDinput from '@/components/MDinput/index.vue';
 import Sticky from '@/components/Sticky/index.vue'; // 粘性header组件
 import { validateURL } from '@/utils/validate';
-import { fetchArticle, updateArticle, createArticle } from '@/api/article';
+import { fetchArticleAdmin, updateArticle, createArticle } from '@/api/article';
 import { userSearch } from '@/api/remoteSearch';
 import { Message } from 'element-ui';
 import { getLabel } from '@/api/log';
@@ -256,7 +256,7 @@ export default class Markdown extends Vue {
   }
 
   private fetchData(id: number | string) {
-    fetchArticle(id)
+    fetchArticleAdmin(id)
       .then((response: any) => {
         this.postForm = response.data;
         // Just for test
@@ -297,6 +297,7 @@ export default class Markdown extends Vue {
                 type: 'success',
                 duration: 1000,
               });
+              this.jumpToList();
             })
             .catch((err: any) => {
               this.$message({
@@ -337,6 +338,7 @@ export default class Markdown extends Vue {
             showClose: true,
             duration: 1000,
           });
+          // this.jumpToList();
         })
         .catch((err: any) => {
           console.log(err);
@@ -344,7 +346,13 @@ export default class Markdown extends Vue {
     } else {
       createArticle(this.postForm)
         .then((response: any) => {
-          console.log(response);
+          this.$message({
+            message: '保存为草稿',
+            type: 'success',
+            showClose: true,
+            duration: 1000,
+          });
+          this.jumpToList();
         })
         .catch((err: any) => {
           console.log(err);
@@ -359,6 +367,10 @@ export default class Markdown extends Vue {
     });
     // this.postForm.status = 'draft';
     this.postForm.status = 0;
+  }
+
+  private jumpToList() {
+    this.$router.push('/components/list');
   }
 
   private getRemoteUserList(query: any) {

@@ -4,10 +4,10 @@
       <div class="front-title">
         <div class="title-left">文档列表</div>
         <div class="title-right">
-          <el-input v-model="search" placeholder="搜索"></el-input>
+          <el-input v-model="listQuery.search" placeholder="搜索(按ENTER键发送)" @keyup.enter.native="getList()"></el-input>
         </div>
       </div>
-      <div class="front-body">
+      <div class="front-body" v-loading="listLoading">
         <div class="art-lists" v-for="(item, index) in lists" :key="index"  >
           <div class="art-list" @click="go('/course/detail',{id:item.id})">
             <div> <img :src="item.image_uri" alt=""> </div>
@@ -21,7 +21,15 @@
           </div>
         </div>
       </div>
-      <div></div>
+      <div class="hc-pagination">
+        <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="listQuery.page"
+        :limit.sync="listQuery.limit"
+        @pagination="getList"
+      />
+      </div>
     </div>
   </div>
 </template>
@@ -29,12 +37,17 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { fetchList } from "@/api/article";
-@Component
+import Pagination from '@/components/Pagination/index.vue';
+@Component({
+  components: {
+    Pagination,
+  },
+})
 export default class FrontArticleIndex extends Vue {
-  private search: string = "";
+  // private search: string = "";
   private total: number = 0;
   private lists: any[] = [];
-  private listQuery: any = { page: 1, limit: 20 };
+  private listQuery: any = { page: 1, limit: 10, search: '', };
   private listLoading: boolean = false;
 
   private created() {

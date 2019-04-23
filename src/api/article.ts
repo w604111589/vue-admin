@@ -17,6 +17,22 @@ export function fetchArticle(id: any) {
   });
 }
 
+export function fetchListAdmin(query: any) {
+  return request({
+    url: 'admin/article/list',
+    method: 'get',
+    params: query,
+  });
+}
+
+export function fetchArticleAdmin(id: any) {
+  return request({
+    url: 'admin/article/detail',
+    method: 'get',
+    params: { id },
+  });
+}
+
 export function fetchPv(pv: any) {
   return request({
     url: '/article/pv',

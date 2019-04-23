@@ -1,7 +1,7 @@
 <template>
   <div class="createPost-container">
     <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
-      <sticky :class-name="'sub-navbar '+postForm.status">
+      <sticky :class-name="'sub-navbar '+postForm.status" :>
         <CommentDropdown v-model="postForm.comment_disabled"/>
         <PlatformDropdown v-model="postForm.platforms"/>
         <SourceUrlDropdown v-model="postForm.source_uri"/>
@@ -127,7 +127,7 @@ import Upload from "@/components/Upload/singleImage3.vue";
 import MDinput from "@/components/MDinput/index.vue";
 import Sticky from "@/components/Sticky/index.vue"; // 粘性header组件
 import { validateURL } from "@/utils/validate";
-import { fetchArticle, updateArticle, createArticle } from "@/api/article";
+import { fetchArticleAdmin, updateArticle, createArticle } from "@/api/article";
 import { getLabel } from '@/api/log';
 import { userSearch } from "@/api/remoteSearch";
 import Warning from "./Warning.vue";
@@ -255,7 +255,7 @@ export default class ArticleDetail extends Vue {
   }
 
   private fetchData(id: number | string) {
-    fetchArticle(id)
+    fetchArticleAdmin(id)
       .then((response: any) => {
         this.postForm = response.data;
         // Just for test
@@ -285,7 +285,7 @@ export default class ArticleDetail extends Vue {
         if (this.isEdit) {
           updateArticle(this.postForm)
             .then((response: any) => {
-              console.log(response);
+              // this.jumpToList();
             })
             .catch((err: any) => {
               console.log(err);
@@ -293,7 +293,7 @@ export default class ArticleDetail extends Vue {
         } else {
           createArticle(this.postForm)
             .then((response: any) => {
-              console.log(response);
+              this.jumpToList();
             })
             .catch((err: any) => {
               console.log(err);
@@ -332,7 +332,7 @@ export default class ArticleDetail extends Vue {
       updateArticle(this.postForm)
         .then((response: any) => {
           this.$message({
-            message: "保存成功",
+            message: "保存草稿成功",
             type: "success",
             showClose: true,
             duration: 1000
@@ -344,21 +344,31 @@ export default class ArticleDetail extends Vue {
     } else {
       createArticle(this.postForm)
         .then((response: any) => {
-          console.log(response);
+          this.$message({
+            message: "创建成功",
+            type: "success",
+            showClose: true,
+            duration: 1000
+          });
+          this.jumpToList();
         })
         .catch((err: any) => {
           console.log(err);
         });
     }
 
-    this.$message({
-      message: "保存成功",
-      type: "success",
-      showClose: true,
-      duration: 1000
-    });
+    // this.$message({
+    //   message: "保存成功",
+    //   type: "success",
+    //   showClose: true,
+    //   duration: 1000
+    // });
     // this.postForm.status = 'draft';
     this.postForm.status = 0;
+  }
+
+  private jumpToList() {
+    this.$router.push('/components/list');
   }
 
   private getRemoteUserList(query: any) {

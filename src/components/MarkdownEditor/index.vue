@@ -71,6 +71,9 @@ export default class MarkdownEditer extends Vue {
   .editor-toolbar{
     border-top-right-radius:0px;
   }
+  .CodeMirror-fullscreen{
+    z-index: 1003;
+  }
 
 </style>
 

@@ -50,10 +50,15 @@ div:focus {
 .front-body{
   background: #fff;
 }
+.hc-pagination{
+  text-align: center;
+}
 
 .sub-navbar {
   height: 50px;
   line-height: 50px;
+  //添加页面层级
+  // z-index: 3 !important;
   position: relative;
   width: 100%;
   text-align: right;
