@@ -28,21 +28,23 @@ export default class Pagination extends Vue {
   @Prop({default: true}) private autoScroll!: boolean;
   @Prop({default: false}) private hidden!: boolean;
 
-  private get currentPage() {
-    return this.page;
-  }
-  private set currentPage(val) {
-    this.page = val;
-  }
+  // private get currentPage() {
+  //   return this.page;
+  // }
+  // private set currentPage(val) {
+  //   this.page = val;
+  // }
 
-  private get pageSize() {
-    return this.limit;
-  }
+  // private get pageSize() {
+  //   return this.limit;
+  // }
 
-  private set pageSize(val){
-    this.limit = val;
-  }
+  // private set pageSize(val) {
+  //   this.limit = val;
+  // }
 
+  private currentPage = this.page;
+  private pageSize = this.limit;
 
   private handleSizeChange(val: number) {
     this.$emit('pagination', { page: this.currentPage, limit: val });

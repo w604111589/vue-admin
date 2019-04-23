@@ -45,7 +45,7 @@ import Pagination from '@/components/Pagination/index.vue';
 })
 export default class FrontArticleIndex extends Vue {
   // private search: string = "";
-  private total: number = 0;
+  private total: number = 1;
   private lists: any[] = [];
   private listQuery: any = { page: 1, limit: 10, search: '', };
   private listLoading: boolean = false;
@@ -54,7 +54,10 @@ export default class FrontArticleIndex extends Vue {
     this.getList();
   }
 
-  private getList() {
+  private getList(params?: any) {
+    if (params) {
+      this.listQuery = params;
+    }
     this.listLoading = true;
     fetchList(this.listQuery).then((response: any) => {
       this.lists = response.data.items;
@@ -78,6 +81,7 @@ export default class FrontArticleIndex extends Vue {
   width: 70%;
   max-width: 1200px;
   margin: 30px auto;
+  padding-top:30px;
 }
 .front-title {
   @include clearfix;

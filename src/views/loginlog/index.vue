@@ -49,7 +49,7 @@ import Pagination from '@/components/Pagination/index.vue';
 @Component({
   filters: {
     statusFilter(status: number) {
-      const statusMap: any = ["登陆失败","登陆成功"]
+      const statusMap: any = ["登陆失败", "登陆成功"];
       return statusMap[status];
     },
   },
@@ -61,7 +61,7 @@ import Pagination from '@/components/Pagination/index.vue';
 export default class logIndex extends Vue {
 
   private list = [];
-  private total:  number = 1;
+  private total: number = 1;
   private listLoading: boolean = true;
   private listQuery: any = { page: 1, limit: 20 };
 
@@ -70,7 +70,7 @@ export default class logIndex extends Vue {
   }
 
   private fetchData(params?: any) {
-    if(params){
+    if (params) {
       this.listQuery = params;
     }
     this.listLoading = true;

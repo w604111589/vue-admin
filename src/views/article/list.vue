@@ -96,7 +96,7 @@ import { fetchListAdmin } from '@/api/article';
       //   deleted: 'danger',
       // };
       // return statusMap[status];
-      const statusMap: any = ['已发布', '草稿'];
+      const statusMap: any = ['草稿', '已发布'];
       return statusMap[status];
     },
   },

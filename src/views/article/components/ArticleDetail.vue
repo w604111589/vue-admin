@@ -282,6 +282,7 @@ export default class ArticleDetail extends Vue {
     (this.$refs.postForm as any).validate((valid: any) => {
       if (valid) {
         this.loading = true;
+        this.postForm.status = 1;
         if (this.isEdit) {
           updateArticle(this.postForm)
             .then((response: any) => {

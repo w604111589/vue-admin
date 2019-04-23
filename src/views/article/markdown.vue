@@ -273,6 +273,7 @@ export default class Markdown extends Vue {
     (this.$refs.postForm as any).validate((valid: any) => {
       if (valid) {
         this.loading = true;
+        this.postForm.status = 1;
         if (this.isEdit) {
           updateArticle(this.postForm)
             .then((response: any) => {
@@ -308,7 +309,7 @@ export default class Markdown extends Vue {
             });
         }
 
-        this.postForm.status = 1;
+        // this.postForm.status = 1;
         this.loading = false;
       } else {
         console.log('error submit!!');
