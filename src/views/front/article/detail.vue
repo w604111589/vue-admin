@@ -128,6 +128,7 @@ export default class FrontArticleDetail extends Vue {
   @include clearfix;
   min-height: 500px;
   margin-top: 30px;
+  overflow: hidden;
   .body-title {
     text-align: center;
     height: 60px;

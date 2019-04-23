@@ -166,6 +166,7 @@ export default class HomeIndex extends Vue {
   @include clearfix;
   min-height: 500px;
   margin-top: 30px;
+  overflow: hidden;
   .art-lists {
     float: left;
     font-size: 14px;

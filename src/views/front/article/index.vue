@@ -104,6 +104,7 @@ export default class FrontArticleIndex extends Vue {
   min-height: 500px;
   margin-top: 30px;
   padding-bottom: 30px;
+  overflow: hidden;
   .art-lists {
     float: left;
     font-size:14px;
