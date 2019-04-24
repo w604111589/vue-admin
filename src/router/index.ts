@@ -52,12 +52,6 @@ export default new Router({
       meta: { hidden: true },
     },
     {
-      path: '/',
-      name: 'home',
-      component: () => import('@/views/home/index.vue'),
-      meta: { hidden: true },
-    },
-    {
       path: '/course',
       name: 'home',
       component: () => import('@/views/front/article/index.vue'),
