@@ -17,6 +17,7 @@
     "@types/sortablejs": "^1.7.2",
     "@types/webpack-env": "^1.13.9",
     "axios": "^0.18.0",
+    "echarts": "^4.2.1",
     "element-ui": "^2.6.1",
     "font-awesome": "^4.7.0",
     "js-cookie": "^2.2.0",
@@ -41,6 +42,7 @@
     "webpack": "^4.29.6"
   },
   "devDependencies": {
+    "@types/echarts": "^4.1.9",
     "@types/jest": "^24.0.11",
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-plugin-e2e-cypress": "^3.5.0",
