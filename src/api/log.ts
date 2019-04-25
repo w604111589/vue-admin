@@ -22,3 +22,17 @@ export const getLabel = (params?: any) =>
     params,
 });
 
+export const createLabel = (data: any) =>
+  request({
+    url: 'label/create',
+    method: 'post',
+    data,
+});
+
+export const updateLabel = (data: any) =>
+  request({
+    url: 'label/update',
+    method: 'post',
+    data,
+});
+

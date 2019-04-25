@@ -1,11 +1,12 @@
 <template>
-  <div :class="className" :id="id" :style="{height:height,width:width}"/>
+  <div :class="className" :id="id"  :style="{height:height,width:width}"/>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import echarts from "echarts";
 // import resize from "./mixins/resize";
+// import { mixins } from 'vue-class-component';
 @Component({
   // mixins: [resize]
 })
@@ -28,7 +29,7 @@ export default class LineMarker extends Vue {
   @Prop({ default: {}  })
   private data!: any;
 
-  private chart = null;
+  private chart: any = null;
 
   private mounted() {
     this.initChart();
@@ -43,7 +44,7 @@ export default class LineMarker extends Vue {
     this.axisY.shift();
     this.axisX.push(this.data.create_time);
     this.axisY.push(this.data.cpu_load);
-    this.setOption();       
+    this.setOption();
   }
 
   @Watch("list")
@@ -51,13 +52,13 @@ export default class LineMarker extends Vue {
     const list = this.list;
     this.axisX = [];
     this.axisY = [];
-    for ( let v of list){
+    for ( let v of list) {
       // console.log(v);
       this.axisX.push(v.create_time);
       this.axisY.push(v.cpu_load);
     }
 
-    this.setOption();    
+    this.setOption();
 
   }
   // 横轴坐标
@@ -75,7 +76,8 @@ export default class LineMarker extends Vue {
   }
 
   private setOption(){
-    const  that =this;
+    const  that = this;
+      // tslint:disable-next-line:align
       (this.chart as any).setOption({
         backgroundColor: '#394056',
         title: {
@@ -128,10 +130,10 @@ export default class LineMarker extends Vue {
           axisLabel: {
             interval: 20,
             // rotate:40,
-            formatter:function(value: string)  
-            {  
-              return value.split(' ').join("\n");  
-            } 
+            formatter: function(value: string)
+            {
+              return value.split(' ').join("\n");
+            }
           },
           // data: ['13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30', '13:35', '13:40', '13:45', '13:50', '13:55']
           data: that.axisX
@@ -201,7 +203,8 @@ export default class LineMarker extends Vue {
 
   private initChart() {
     const that = this;
-      this.chart = echarts.init( document.getElementById(this.id) );
+      this.chart = echarts.init( (document as any).getElementById(this.id) );
+      // that.chart = echarts.init( that.$refs.chart_id );
       // (this.chart as any).setOption({
       //   backgroundColor: '#394056',
       //   title: {
