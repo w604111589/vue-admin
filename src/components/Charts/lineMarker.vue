@@ -54,8 +54,11 @@ export default class LineMarker extends Vue {
     this.axisY = [];
     for ( let v of list) {
       // console.log(v);
-      this.axisX.push(v.create_time);
-      this.axisY.push(v.cpu_load);
+      // this.axisX.push(v.create_time);
+      // this.axisY.push(v.cpu_load);
+      this.axisX.unshift(v.create_time);
+      this.axisY.unshift(v.cpu_load);
+
     }
 
     this.setOption();
