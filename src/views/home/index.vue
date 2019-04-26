@@ -73,11 +73,17 @@ export default class HomeIndex extends Vue {
   private lists: any[] = [];
   private listQuery: any = { page: 1, limit: 20 };
   private listLoading: boolean = false;
+  // private imgs: any[] = [
+  //   "https://img11.360buyimg.com/da/jfs/t4000/107/2234194410/85271/6c24d985/58a50cafNb60886c9.jpg",
+  //   "https://img20.360buyimg.com/da/jfs/t3154/175/5917485830/129679/f123634c/5897e6a2N83837dd2.jpg",
+  //   "https://img1.360buyimg.com/da/jfs/t3133/89/5984232745/66970/beaf615c/589ac9bcNe544a72e.jpg",
+  //   "https://img20.360buyimg.com/da/jfs/t3157/165/6117849901/102894/88bf53b8/589d67b6Ne8986a9e.jpg"
+  // ];
   private imgs: any[] = [
-    "https://img11.360buyimg.com/da/jfs/t4000/107/2234194410/85271/6c24d985/58a50cafNb60886c9.jpg",
-    "https://img20.360buyimg.com/da/jfs/t3154/175/5917485830/129679/f123634c/5897e6a2N83837dd2.jpg",
-    "https://img1.360buyimg.com/da/jfs/t3133/89/5984232745/66970/beaf615c/589ac9bcNe544a72e.jpg",
-    "https://img20.360buyimg.com/da/jfs/t3157/165/6117849901/102894/88bf53b8/589d67b6Ne8986a9e.jpg"
+    "../../assets/img/bg1.jpg",
+    "../../assets/img/bg2.jpg",
+    "../../assets/img/bg3.jpg",
+    "../../assets/img/bg4.jpg",
   ];
   private currImgs: any[] = [];
   private index: number = 0;
@@ -127,11 +133,11 @@ export default class HomeIndex extends Vue {
 }
 .home-carousel {
   text-align: center;
-  height:300px;
+  height:400px;
 }
 .home-ad {
   @include clearfix;
-  margin-top: -3px;
+  margin-top: 0px;
   height: 50px;
   line-height: 50px;
   background: #1f2d3d;

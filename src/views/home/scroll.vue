@@ -10,7 +10,7 @@
         <img v-bind:src="showImg" v-if="show">
       </transition>
     </div>
-    <div class="screen">3213123</div>
+    <!-- <div class="screen">3213123</div> -->
   </div>
 </template>
 
@@ -21,7 +21,8 @@ import Velocity from "velocity-animate";
 export default class Scroll extends Vue {
   private imgs: any[] = [];
   private isAnimate: boolean = false;
-  private showImg: string = "https://img11.360buyimg.com/da/jfs/t4000/107/2234194410/85271/6c24d985/58a50cafNb60886c9.jpg";
+  // private showImg: string = "https://img11.360buyimg.com/da/jfs/t4000/107/2234194410/85271/6c24d985/58a50cafNb60886c9.jpg";
+  private showImg: string = "http://62.234.14.42/uploads/2019-04-26/bg4.jpg";
   private showIndex: number = 0;
   private show: boolean = true;
 
@@ -38,29 +39,29 @@ export default class Scroll extends Vue {
   private bg_data() {
     const that = this;
     that.imgs = [
-      "https://img11.360buyimg.com/da/jfs/t4000/107/2234194410/85271/6c24d985/58a50cafNb60886c9.jpg",
-      "https://img20.360buyimg.com/da/jfs/t3154/175/5917485830/129679/f123634c/5897e6a2N83837dd2.jpg",
-      "https://img1.360buyimg.com/da/jfs/t3133/89/5984232745/66970/beaf615c/589ac9bcNe544a72e.jpg",
-      "https://img20.360buyimg.com/da/jfs/t3157/165/6117849901/102894/88bf53b8/589d67b6Ne8986a9e.jpg",
+    "http://62.234.14.42/uploads/2019-04-26/bg4.jpg",
+    "http://62.234.14.42/uploads/2019-04-26/bg1.jpg",
+    "http://62.234.14.42/uploads/2019-04-26/bg2.jpg",
+    "http://62.234.14.42/uploads/2019-04-26/bg3.jpg",
+
+
     ];
     that.showImg = that.imgs[0];
   }
 
   private beforeEnter(name: any) {
-    console.log('beforeEnter');
     name.style.opacity = 0;
     name.style.transform = "scale(1) rotate(0deg)";
   }
 
   private enter(name: any, done: any) {
-    console.log('enter');
     const vm = this;
     Velocity(
       name,
       // { opacity: 1, scale: 1.2, rotateZ: "3deg" },
       { opacity: 0.5, scale: 1 },
       {
-        duration: 3000,
+        duration: 2000,
         complete: () => {
           done();
           vm.show = false;
@@ -77,7 +78,7 @@ export default class Scroll extends Vue {
       // { opacity: 0, scale: 1, rotateZ: "0deg" },
       { opacity: 0.5, scale: 1 },
       {
-        duration: 3000,
+        duration: 20000,
         complete: () => {
           done();
           vm.showImg =
@@ -100,7 +101,7 @@ export default class Scroll extends Vue {
   // left: 0px;
   // top:0px;
   // background-color: rgb(180, 180, 180);
-  height: 300px;
+  height: 400px;
   width: 100%;
   min-width: 1000px;
   z-index: -100;
@@ -114,7 +115,7 @@ export default class Scroll extends Vue {
     display: inline-block;
     position: relative;
     width: 100%;
-    height: 300px;
+    height: 400px;
     vertical-align: middle;
   }
 }
