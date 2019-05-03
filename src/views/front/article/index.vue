@@ -125,6 +125,9 @@ export default class FrontArticleIndex extends Vue {
         padding-left:10px;
         height:24px;
         line-height:24px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

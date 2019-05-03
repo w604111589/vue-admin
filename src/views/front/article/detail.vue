@@ -104,6 +104,7 @@ export default class FrontArticleDetail extends Vue {
 @import "src/styles/mixin.scss";
 .detail {
   padding-top: 60px;
+  padding-bottom:30px;
 }
 .front-container {
   width: 70%;
