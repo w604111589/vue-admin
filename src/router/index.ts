@@ -28,39 +28,39 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
+      component: (resolve) => require(/* webpackChunkName: "login" */ ['@/views/login/index.vue'], resolve),
       meta: { hidden: true},
     },
 
     {
       path: '/register',
       name: 'register',
-      component: () => import(/* webpackChunkName: "login" */ '@/views/login/register.vue'),
+      component: (resolve) => require(/* webpackChunkName: "login" */ ['@/views/login/register.vue'], resolve),
       meta: { hidden: true},
     },
 
     {
       path: '/404',
       name: '404',
-      component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue') ,
+      component: (resolve) => require(/* webpackChunkName: "404" */ ['@/views/404.vue'], resolve) ,
       meta: { hidden: true },
     },
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/home/index.vue'),
+      component: (resolve) => require(['@/views/home/index.vue'], resolve),
       meta: { hidden: true },
     },
     {
       path: '/course',
       name: 'home',
-      component: () => import('@/views/front/article/index.vue'),
+      component: (resolve) => require(['@/views/front/article/index.vue'], resolve),
       meta: { hidden: true },
     },
     {
       path: '/course/detail',
       name: 'home',
-      component: () => import('@/views/front/article/detail.vue'),
+      component: (resolve) => require(['@/views/front/article/detail.vue'], resolve),
       meta: { hidden: true },
     },
 
@@ -80,7 +80,7 @@ export default new Router({
       children: [{
         path: 'index',
         name: 'dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'),
+        component: (resolve) => require(/* webpackChunkName: "dashboard" */ ['@/views/dashboard/index.vue'], resolve),
       }],
     },
     {
@@ -92,7 +92,7 @@ export default new Router({
       children: [{
         path: 'index',
         name: 'Log',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/loginlog/index.vue'),
+        component: (resolve) => require(/* webpackChunkName: "dashboard" */ ['@/views/loginlog/index.vue'], resolve),
       }],
     },
     {
@@ -104,7 +104,7 @@ export default new Router({
       children: [{
         path: 'index',
         name: 'message',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/message/index.vue'),
+        component: (resolve) => require(/* webpackChunkName: "dashboard" */ ['@/views/message/index.vue'], resolve),
       }],
     },
     {
@@ -117,13 +117,13 @@ export default new Router({
         {
           path: 'index',
           name: 'Index',
-          component: () => import(/* webpackChunkName: "table" */ '@/views/robot/index.vue'),
+          component: (resolve) => require(/* webpackChunkName: "table" */ ['@/views/robot/index.vue'], resolve),
           meta: { title: 'Label', icon: 'table' , isChildren: 'yes' },
         },
         {
           path: 'table',
           name: 'robotTable',
-          component: () => import(/* webpackChunkName: "tree" */ '@/views/robot/robotTable.vue'),
+          component: (resolve) => require(/* webpackChunkName: "tree" */ ['@/views/robot/robotTable.vue'], resolve),
           meta: { title: 'robotTable', icon: 'table' , isChildren: 'yes' },
         },
       ],
@@ -137,7 +137,7 @@ export default new Router({
         {
           path: 'index',
           name: 'Form',
-          component: () => import(/* webpackChunkName: "form" */ '@/views/form/index.vue'),
+          component: (resolve) => require(/* webpackChunkName: "form" */ ['@/views/form/index.vue'], resolve),
           meta: { title: 'Form', icon: 'form' },
         },
       ],
@@ -165,38 +165,38 @@ export default new Router({
       children: [
         {
           path: 'mcreate',
-          component: () => import('@/views/article/markdown.vue'),
+          component: (resolve) => require(['@/views/article/markdown.vue'], resolve),
           name: 'mcreate',
           meta: { title: 'markdown', icon: 'form' },
         },
         {
           path: 'medit/:id(\\d+)',
-          component: () => import('@/views/article/markdown.vue'),
+          component: (resolve) => require(['@/views/article/markdown.vue'], resolve),
           name: 'medit',
           meta: { title: 'markdown', icon: 'edit' , hidden: true },
         },
         {
           path: 'create',
-          component: () => import('@/views/article/create.vue'),
+          component: (resolve) => require(['@/views/article/create.vue'], resolve),
           name: 'ArticleCreate',
           meta: { title: 'create', icon: 'edit' },
         },
 
         {
           path: 'edit/:id(\\d+)',
-          component: () => import('@/views/article/edit.vue'),
+          component: (resolve) => require(['@/views/article/edit.vue'], resolve),
           name: 'ArticleEdit',
           meta: { title: 'edit', icon: 'form', hidden: true },
         },
         {
           path: 'list',
-          component: () => import('@/views/article/list.vue'),
+          component: (resolve) => require(['@/views/article/list.vue'], resolve),
           name: 'ArticleList',
           meta: { title: 'list', icon: 'list' },
         },
         {
           path: 'avatar-upload',
-          component: () => import('@/views/components/avatarUpload.vue'),
+          component: (resolve) => require(['@/views/components/avatarUpload.vue'], resolve),
           name: 'AvatarUploadDemo',
           meta: { title: 'avatarUpload', icon: 'form' },
         },
