@@ -18,3 +18,4 @@ import './email';
 import './star';
 import './list';
 import './edit';
+import './reduce';
