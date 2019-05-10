@@ -10,17 +10,11 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@types/js-cookie": "^2.2.1",
-    "@types/mockjs": "^1.0.2",
-    "@types/nprogress": "^0.0.29",
-    "@types/qs": "^6.5.2",
-    "@types/sortablejs": "^1.7.2",
-    "@types/webpack-env": "^1.13.9",
+    "js-cookie": "^2.2.0",
     "axios": "^0.18.0",
     "echarts": "^4.2.1",
     "element-ui": "^2.6.1",
     "font-awesome": "^4.7.0",
-    "js-cookie": "^2.2.0",
     "mockjs": "^1.0.1-beta3",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
@@ -38,10 +32,14 @@
     "vue-svgicon": "^3.2.2",
     "vuex": "^3.1.0",
     "vuex-class": "^0.3.1",
-    "vuex-module-decorators": "^0.9.8",
-    "webpack": "^4.29.6"
+    "vuex-module-decorators": "^0.9.8"
   },
   "devDependencies": {
+    "@types/js-cookie": "^2.2.1",
+    "@types/nprogress": "^0.0.29",
+    "@types/qs": "^6.5.2",
+    "@types/sortablejs": "^1.7.2",
+    "@types/webpack-env": "^1.13.9",
     "@types/echarts": "^4.1.9",
     "@types/jest": "^24.0.11",
     "@vue/cli-plugin-babel": "^3.5.0",
@@ -59,6 +57,7 @@
     "ts-jest": "^24.0.0",
     "typescript": "3.3.3333",
     "vue-cli-plugin-element": "^1.0.1",
-    "vue-template-compiler": "^2.6.8"
+    "vue-template-compiler": "^2.6.8",
+    "webpack": "^4.29.6"
   }
 }

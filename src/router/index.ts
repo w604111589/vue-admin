@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Layout from '@/views/layout/Layout.vue';
+// import Layout from '@/views/layout/Layout.vue';
+const Layout = (resolve: any) => require(/* webpackChunkName: "login" */ ['@/views/layout/Layout.vue'], resolve);
 
 Vue.use(Router);
 
@@ -28,27 +29,27 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: (resolve) => require(/* webpackChunkName: "login" */ ['@/views/login/index.vue'], resolve),
+      component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
       meta: { hidden: true},
     },
 
     {
       path: '/register',
       name: 'register',
-      component: (resolve) => require(/* webpackChunkName: "login" */ ['@/views/login/register.vue'], resolve),
+      component: (resolve) => require(/* webpackChunkName: "register" */ ['@/views/login/register.vue'], resolve),
       meta: { hidden: true},
     },
 
     {
       path: '/404',
       name: '404',
-      component: (resolve) => require(/* webpackChunkName: "404" */ ['@/views/404.vue'], resolve) ,
+      component: (resolve) => require( ['@/views/404.vue'], resolve) ,
       meta: { hidden: true },
     },
     {
       path: '/',
       name: 'home',
-      component: (resolve) => require(['@/views/home/index.vue'], resolve),
+      component: () => import( /* webpackChunkName: "home" */'@/views/home/index.vue'),
       meta: { hidden: true },
     },
     {
@@ -80,7 +81,7 @@ export default new Router({
       children: [{
         path: 'index',
         name: 'dashboard',
-        component: (resolve) => require(/* webpackChunkName: "dashboard" */ ['@/views/dashboard/index.vue'], resolve),
+        component: (resolve) => require( ['@/views/dashboard/index.vue'], resolve),
       }],
     },
     {
@@ -92,7 +93,7 @@ export default new Router({
       children: [{
         path: 'index',
         name: 'Log',
-        component: (resolve) => require(/* webpackChunkName: "dashboard" */ ['@/views/loginlog/index.vue'], resolve),
+        component: (resolve) => require(['@/views/loginlog/index.vue'], resolve),
       }],
     },
     {
@@ -104,7 +105,7 @@ export default new Router({
       children: [{
         path: 'index',
         name: 'message',
-        component: (resolve) => require(/* webpackChunkName: "dashboard" */ ['@/views/message/index.vue'], resolve),
+        component: (resolve) => require( ['@/views/message/index.vue'], resolve),
       }],
     },
     {
@@ -117,13 +118,13 @@ export default new Router({
         {
           path: 'index',
           name: 'Index',
-          component: (resolve) => require(/* webpackChunkName: "table" */ ['@/views/robot/index.vue'], resolve),
+          component: (resolve) => require( ['@/views/robot/index.vue'], resolve),
           meta: { title: 'Label', icon: 'table' , isChildren: 'yes' },
         },
         {
           path: 'table',
           name: 'robotTable',
-          component: (resolve) => require(/* webpackChunkName: "tree" */ ['@/views/robot/robotTable.vue'], resolve),
+          component: (resolve) => require( ['@/views/robot/robotTable.vue'], resolve),
           meta: { title: 'robotTable', icon: 'table' , isChildren: 'yes' },
         },
       ],
@@ -137,7 +138,7 @@ export default new Router({
         {
           path: 'index',
           name: 'Form',
-          component: (resolve) => require(/* webpackChunkName: "form" */ ['@/views/form/index.vue'], resolve),
+          component: (resolve) => require( ['@/views/form/index.vue'], resolve),
           meta: { title: 'Form', icon: 'form' },
         },
       ],

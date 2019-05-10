@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/static/' : '/',
+  // publicPath: process.env.NODE_ENV === 'production' ? '/static/' : '/',
   
   chainWebpack: config => {
     // 移除 prefetch 插件
@@ -10,7 +10,7 @@ module.exports = {
         .use('url-loader')
         .tap(options => Object.assign(options, { limit: 500 }));
   },
-  
+  productionSourceMap: false,
   devServer: {
     open: 'darwin' === process.platform,
 
