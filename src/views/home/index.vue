@@ -180,7 +180,8 @@ export default class HomeIndex extends Vue {
       margin-left: 30px;
       margin-top: 30px;
       background-color: #f1f1f1;
-      min-width: 360px;
+      // min-width: 360px;
+      max-width:360px;
       min-height: 200px;
       img {
         width: 100%;
@@ -191,6 +192,10 @@ export default class HomeIndex extends Vue {
         padding-left: 10px;
         height: 24px;
         line-height: 24px;
+        width:100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

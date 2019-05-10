@@ -16,8 +16,8 @@
             </li>
             <li>
               <span
-                @click="changeCategory('store','/store')"
-                :class="menuType == 'store'? 'header-style':''"
+                @click="changeCategory('mall','/mall')"
+                :class="menuType == 'mall'? 'header-style':''"
               >商城</span>
             </li>
 

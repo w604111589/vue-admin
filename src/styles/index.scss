@@ -53,6 +53,10 @@ div:focus {
 .hc-pagination{
   text-align: center;
 }
+//markdown 预览分屏左边栏
+.editor-preview-active-side{
+  z-index: 210 !important;
+}
 
 .sub-navbar {
   height: 50px;

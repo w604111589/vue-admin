@@ -70,9 +70,9 @@ export default {
     zh: '简体中文',
     en: '英文',
     loginout: '退出',
-    exchange: '交易所',
+    exchange: '信息',
     robot: '控制台',
-    plat_name: '量化策略平台',
+    plat_name: '天涯行',
   },
   navbar: {
     logOut: '退出登录',

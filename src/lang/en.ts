@@ -72,7 +72,7 @@ export default {
     loginout: 'log Out',
     exchange: 'exchange',
     robot: 'robot',
-    plat_name: 'Quantitative Platform',
+    plat_name: 'The world Platform',
   },
   navbar: {
     logOut: 'Log Out',

@@ -54,14 +54,36 @@ export default new Router({
     },
     {
       path: '/course',
+<<<<<<< HEAD
       name: 'home',
       component: (resolve) => require(['@/views/front/article/index.vue'], resolve),
+=======
+      name: 'course',
+      component: () => import('@/views/front/article/index.vue'),
+>>>>>>> 666
       meta: { hidden: true },
     },
     {
       path: '/course/detail',
+<<<<<<< HEAD
       name: 'home',
       component: (resolve) => require(['@/views/front/article/detail.vue'], resolve),
+=======
+      name: 'courseDetail',
+      component: () => import('@/views/front/article/detail.vue'),
+>>>>>>> 666
+      meta: { hidden: true },
+    },
+    {
+      path: '/mall',
+      name: 'mall',
+      component: () => import('@/views/front/mall/index.vue'),
+      meta: { hidden: true },
+    },
+    {
+      path: '/mall/detail',
+      name: 'mallDetail',
+      component: () => import('@/views/front/mall/detail.vue'),
       meta: { hidden: true },
     },
 
