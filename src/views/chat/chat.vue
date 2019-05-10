@@ -82,7 +82,7 @@ export default class Chat extends Vue {
   }
 
   private initWebsocket() {
-    const url = "ws://localhost:9001/chat/ws";
+    const url = "ws://62.234.14.42:8088/chat/ws";
     this.conn = new WebSocket(url);
     this.conn.onopen = (event: any) => {
       console.log("WebSocket:已连接");
