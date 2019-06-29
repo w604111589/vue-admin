@@ -84,11 +84,6 @@ export default class Tinymce extends Vue {
 
   private initTinymce() {
     const _this = this;
-    // console.log((window as any).tinymce);
-    // console.log(this.tinymceId);
-    // console.log(this.toolbar.length > 0 ? this.toolbar : toolbar);
-    // console.log(this.menubar);
-    // console.log(plugins);
     (window as any).tinymce.init({
       language: this.language,
       selector: `#${this.tinymceId}`,
