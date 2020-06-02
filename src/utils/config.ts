@@ -17,7 +17,7 @@ switch (location.hostname) {
     BaseUrlCustom = '/';
 }
 
-BaseUrlCustom = "http://62.234.14.42/";
+// BaseUrlCustom = "http://62.234.14.42/";
 
 const config = {
   BaseUrlCustom,

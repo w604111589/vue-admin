@@ -10,11 +10,11 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "js-cookie": "^2.2.0",
     "axios": "^0.18.0",
     "echarts": "^4.2.1",
     "element-ui": "^2.6.1",
     "font-awesome": "^4.7.0",
+    "js-cookie": "^2.2.0",
     "mockjs": "^1.0.1-beta3",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
@@ -35,13 +35,13 @@
     "vuex-module-decorators": "^0.9.8"
   },
   "devDependencies": {
+    "@types/echarts": "^4.1.9",
+    "@types/jest": "^24.0.11",
     "@types/js-cookie": "^2.2.1",
     "@types/nprogress": "^0.0.29",
     "@types/qs": "^6.5.2",
     "@types/sortablejs": "^1.7.2",
     "@types/webpack-env": "^1.13.9",
-    "@types/echarts": "^4.1.9",
-    "@types/jest": "^24.0.11",
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-plugin-e2e-cypress": "^3.5.0",
     "@vue/cli-plugin-pwa": "^3.5.0",
